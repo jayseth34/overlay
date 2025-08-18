@@ -430,11 +430,11 @@ document.addEventListener('DOMContentLoaded', function () {
       if (parsed.hostname.includes('youtu.be')) {
         const videoId = parsed.pathname.split('/')[1];
         if (videoId) {
-          targetLink = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}`;
+          targetLink = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&loop=1&playlist=${videoId}`;
         }
       } else if (parsed.hostname.includes('youtube.com') && parsed.searchParams.get('v')) {
         const videoId = parsed.searchParams.get('v');
-        targetLink = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}`;
+        targetLink = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&loop=1&playlist=${videoId}`;
       }
 
       // cache-buster
@@ -450,7 +450,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (targetLink) {
     iframe.src = targetLink;
   } else {
-    iframe.src = "https://www.youtube.com/embed/HHBF5efMTPI?autoplay=1&mute=1&controls=0&rel=0&showinfo=0&modestbranding=1&loop=1&playlist=HHBF5efMTPI";
+    iframe.src = "https://www.youtube.com/embed/HHBF5efMTPI?autoplay=1&mute=0&controls=0&rel=0&showinfo=0&modestbranding=1&loop=1&playlist=HHBF5efMTPI";
   }
 });
 </script>
