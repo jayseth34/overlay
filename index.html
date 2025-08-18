@@ -322,6 +322,69 @@
                 font-size: 18px;
             }
         }
+       @media (max-width: 768px) {
+    .auction-overlay {
+        height: 160px; /* was 140px */
+        flex-direction: column;
+        padding: 18px; /* was 15px */
+        gap: 10px;
+    }
+
+    .left-section,
+    .right-section {
+        flex: none;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .center-section {
+        margin: 0;
+        padding: 16px 20px; /* slight bump */
+    }
+
+    .current-bid {
+        font-size: 28px;
+    }
+
+    .player-name {
+        font-size: 20px;
+    }
+
+    .team-logo {
+        width: 50px;
+        height: 50px;
+        font-size: 16px;
+    }
+}
+
+/* For small phones */
+@media (max-width: 480px) {
+    .auction-overlay {
+        height: 130px; /* was 100px */
+        padding: 14px;  /* was 10px */
+    }
+
+    .center-section {
+        padding: 12px 15px; /* was 10px */
+    }
+
+    .current-bid {
+        font-size: 24px;
+    }
+
+    .player-name {
+        font-size: 18px;
+    }
+
+    .bid-controls {
+        gap: 6px;
+    }
+
+    .bid-btn {
+        padding: 5px 9px; /* slightly bigger tap area */
+        font-size: 10px;
+    }
+}
     </style>
 
 </head>
