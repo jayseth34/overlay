@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Auction Overlay</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000;
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .video-background iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .auction-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 120px;
+            background: linear-gradient(90deg, 
+                rgba(15, 30, 60, 0.95) 0%,
+                rgba(25, 40, 80, 0.95) 50%,
+                rgba(15, 30, 60, 0.95) 100%);
+            backdrop-filter: blur(15px);
+            border-top: 3px solid rgba(255, 215, 0, 0.6);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .left-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+        }
+
+        .team-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 20px;
+            color: white;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(255, 68, 68, 0.3);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .player-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .player-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffd700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .player-role {
+            font-size: 14px;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .bid-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .current-team {
+            font-size: 16px;
+            font-weight: 600;
+            color: #4444ff;
+        }
+
+        .base-price-small {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .center-section {
+            flex: 1;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px 30px;
+            border-radius: 20px;
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            margin: 0 20px;
+            position: relative;
+        }
+
+        .auction-title {
+            font-size: 12px;
+            color: #ffd700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .current-bid {
+            font-size: 36px;
+            font-weight: 900;
+            color: #00ff88;
+            margin-bottom: 8px;
+            text-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+            animation: bidGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes bidGlow {
+            0%, 100% { text-shadow: 0 0 15px rgba(0, 255, 136, 0.4); }
+            50% { text-shadow: 0 0 25px rgba(0, 255, 136, 0.6); }
+        }
+
+        .bid-increment {
+            font-size: 12px;
+            color: #aaa;
+            margin-bottom: 10px;
+        }
+
+        .right-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+            justify-content: flex-end;
+        }
+
+        .timer-section {
+            text-align: center;
+            background: rgba(255, 68, 68, 0.9);
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 68, 68, 0.5);
+            box-shadow: 0 5px 15px rgba(255, 68, 68, 0.3);
+        }
+
+        .timer-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 3px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .timer-value {
+            font-size: 22px;
+            font-weight: 900;
+            color: white;
+        }
+
+        .status-section {
+            text-align: center;
+            background: rgba(0, 255, 136, 0.9);
+            padding: 15px 18px;
+            border-radius: 12px;
+            border: 2px solid rgba(0, 255, 136, 0.5);
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
+        }
+
+        .status-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 3px;
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        .status-value {
+            font-size: 12px;
+            font-weight: 700;
+            color: #000;
+            text-transform: uppercase;
+        }
+
+        .live-indicator {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: #ff0000;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            animation: livePulse 1.5s ease-in-out infinite;
+            z-index: 1001;
+        }
+
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .auction-round {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            background: rgba(255, 215, 0, 0.9);
+            color: #000;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 1001;
+        }
+
+        .connection-status {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 255, 0, 0.9);
+            color: #000;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 1001;
+            transition: background-color 0.3s ease;
+        }
+
+        .connection-status.disconnected {
+            background: rgba(255, 0, 0, 0.9);
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .auction-overlay {
+                height: 140px;
+                flex-direction: column;
+                padding: 15px;
+                gap: 10px;
+            }
+
+            .left-section,
+            .right-section {
+                flex: none;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .center-section {
+                margin: 0;
+                padding: 15px 20px;
+            }
+
+            .current-bid {
+                font-size: 28px;
+            }
+
+            .player-name {
+                font-size: 20px;
+            }
+
+            .team-logo {
+                width: 50px;
+                height: 50px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .auction-overlay {
+                height: 100px;
+                padding: 10px;
+            }
+
+            .center-section {
+                padding: 10px 15px;
+            }
+
+            .current-bid {
+                font-size: 24px;
+            }
+
+            .player-name {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="video-background">
+        <iframe id="youtube-iframe" 
+                src="https://www.youtube.com/embed/HHBF5efMTPI?autoplay=1&mute=1&controls=0&rel=0&showinfo=0&modestbranding=1&loop=1&playlist=HHBF5efMTPI" 
+                allowfullscreen>
+        </iframe>
+    </div>
+
+    <div class="live-indicator">● LIVE</div>
+    <div class="auction-round" id="tournament-name">IPL AUCTION 2025</div>
+    <div class="connection-status" id="connection-status">CONNECTED</div>
+
+    <div class="auction-overlay">
+        <div class="left-section">
+            <div class="team-logo" id="team-logo">RCB</div>
+            <div class="player-info">
+                <div class="player-name" id="player-name">Virat Kohli</div>
+                <div class="player-role" id="player-role">Batsman • Right-handed</div>
+            </div>
+            <div class="bid-info">
+                <div class="current-team" id="bidding-team">Royal Challengers Bangalore</div>
+                <div class="base-price-small">Base: ₹400 PTS</div>
+            </div>
+        </div>
+
+        <div class="center-section">
+            <div class="auction-title">Current Highest Bid</div>
+            <div class="current-bid" id="current-bid">₹400 PTS</div>
+            <div class="bid-increment">Live auction data</div>
+        </div>
+
+        <div class="right-section">
+            <div class="timer-section">
+                <div class="timer-label">Status</div>
+                <div class="timer-value" id="auction-status">Bidding</div>
+            </div>
+            <div class="status-section">
+                <div class="status-label">Phase</div>
+                <div class="status-value" id="auction-phase">MAIN</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        let tournamentId = null;
+        let apiBaseUrl = 'https://sportsdecor.somee.com/api/Tournament';
+        let refreshInterval = 2000; // Refresh every 2 seconds
+        let isConnected = true;
+
+        // Get URL parameters
+        function getUrlParameters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return {
+                videoId: urlParams.get('videoId') || 'HHBF5efMTPI',
+                tournamentId: urlParams.get('tournamentId'),
+                playerName: urlParams.get('playerName'),
+                currentBid: urlParams.get('currentBid'),
+                selectedTeam: urlParams.get('selectedTeam'),
+                playerCategory: urlParams.get('playerCategory')
+            };
+        }
+
+        // Initialize overlay with URL parameters
+        function initializeOverlay() {
+            const params = getUrlParameters();
+            
+            // Set video ID in iframe
+            if (params.videoId) {
+                const iframe = document.getElementById('youtube-iframe');
+                iframe.src = `https://www.youtube.com/embed/${params.videoId}?autoplay=1&mute=1&controls=0&rel=0&showinfo=0&modestbranding=1&loop=1&playlist=${params.videoId}`;
+            }
+
+            // Set tournament ID for API calls
+            if (params.tournamentId) {
+                tournamentId = params.tournamentId;
+            }
+
+            // Set initial data from URL parameters
+            if (params.playerName) {
+                document.getElementById('player-name').textContent = decodeURIComponent(params.playerName);
+            }
+            if (params.currentBid) {
+                document.getElementById('current-bid').textContent = `₹${params.currentBid} PTS`;
+            }
+            if (params.selectedTeam) {
+                document.getElementById('bidding-team').textContent = decodeURIComponent(params.selectedTeam);
+                // You could also update the team logo here if you have team data
+            }
+            if (params.playerCategory) {
+                document.getElementById('player-role').textContent = decodeURIComponent(params.playerCategory);
+            }
+        }
+
+        // Fetch live auction data from API
+        async function fetchAuctionData() {
+            if (!tournamentId) return;
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/getAuctionState/${tournamentId}`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    updateOverlayWithData(data);
+                    updateConnectionStatus(true);
+                } else {
+                    console.warn('Failed to fetch auction data:', response.status);
+                    updateConnectionStatus(false);
+                }
+            } catch (error) {
+                console.error('Error fetching auction data:', error);
+                updateConnectionStatus(false);
+            }
+        }
+
+        // Update overlay with fresh data from API
+        function updateOverlayWithData(data) {
+            // Update player information
+            if (data.playerName) {
+                document.getElementById('player-name').textContent = data.playerName;
+            }
+            
+            if (data.playerCategory) {
+                document.getElementById('player-role').textContent = data.playerCategory;
+            }
+
+            if (data.currentBid) {
+                document.getElementById('current-bid').textContent = `₹${data.currentBid} PTS`;
+                addBidAnimation();
+            }
+
+            if (data.selectedTeam) {
+                document.getElementById('bidding-team').textContent = data.selectedTeam;
+                
+                // Update team logo if teams data is available
+                if (data.teams && Array.isArray(data.teams)) {
+                    const team = data.teams.find(t => t.name === data.selectedTeam);
+                    if (team) {
+                        updateTeamLogo(team);
+                    }
+                }
+            }
+
+            // Update auction phase
+            if (data.auctionPhase) {
+                const phaseElement = document.getElementById('auction-phase');
+                switch (data.auctionPhase) {
+                    case 'mainAuction':
+                        phaseElement.textContent = 'MAIN';
+                        break;
+                    case 'unsoldAuction':
+                        phaseElement.textContent = 'UNSOLD';
+                        break;
+                    case 'finished':
+                        phaseElement.textContent = 'FINISHED';
+                        document.getElementById('auction-status').textContent = 'COMPLETED';
+                        break;
+                    default:
+                        phaseElement.textContent = 'SETUP';
+                }
+            }
+
+            // Update auction status
+            if (data.soldTo) {
+                if (data.soldTo === 'Unsold') {
+                    document.getElementById('auction-status').textContent = 'UNSOLD';
+                } else {
+                    document.getElementById('auction-status').textContent = 'SOLD!';
+                }
+            } else {
+                document.getElementById('auction-status').textContent = 'BIDDING';
+            }
+        }
+
+        // Update team logo
+        function updateTeamLogo(team) {
+            const logoElement = document.getElementById('team-logo');
+            
+            if (team.logo && team.logo.startsWith('http')) {
+                logoElement.style.backgroundImage = `url(${team.logo})`;
+                logoElement.style.backgroundSize = 'cover';
+                logoElement.style.backgroundPosition = 'center';
+                logoElement.textContent = '';
+            } else {
+                // Fallback to team code
+                logoElement.style.backgroundImage = 'none';
+                logoElement.textContent = team.name.substring(0, 3).toUpperCase();
+            }
+
+            // Update team logo color based on team name
+            const teamColors = {
+                'Royal Challengers Bangalore': '#cc0000',
+                'Mumbai Indians': '#0066cc',
+                'Chennai Super Kings': '#ffcc00',
+                'Delhi Capitals': '#0099cc',
+                'Kolkata Knight Riders': '#6600cc',
+                'Punjab Kings': '#cc3300',
+                'Rajasthan Royals': '#ff6699',
+                'Sunrisers Hyderabad': '#ff8800'
+            };
+
+            const color = teamColors[team.name] || '#ff4444';
+            if (!team.logo || !team.logo.startsWith('http')) {
+                logoElement.style.background = `linear-gradient(135deg, ${color}, ${color}dd)`;
+            }
+        }
+
+        // Update connection status indicator
+        function updateConnectionStatus(connected) {
+            const statusElement = document.getElementById('connection-status');
+            if (connected !== isConnected) {
+                isConnected = connected;
+                if (connected) {
+                    statusElement.textContent = 'CONNECTED';
+                    statusElement.classList.remove('disconnected');
+                } else {
+                    statusElement.textContent = 'RECONNECTING...';
+                    statusElement.classList.add('disconnected');
+                }
+            }
+        }
+
+        // Add animation to bid amount when it changes
+        function addBidAnimation() {
+            const bidElement = document.getElementById('current-bid');
+            bidElement.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                bidElement.style.transform = 'scale(1)';
+            },
