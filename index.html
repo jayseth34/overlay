@@ -44,81 +44,32 @@
             position: relative;
             height: 100vh;
             z-index: 1;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.2);
         }
 
         /* IPL Logo */
         .ipl-logo {
             position: absolute;
-            top: 20px;
-            left: 20px;
-            width: 80px;
-            height: 80px;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%23ff6b35"/><text x="50" y="60" text-anchor="middle" fill="white" font-size="24" font-weight="bold">IPL</text></svg>') no-repeat center;
-            background-size: contain;
-            z-index: 10;
-        }
-
-        /* Team Sections */
-        .teams-container {
-            position: absolute;
-            top: 60px;
+            top: 30px;
             left: 50%;
             transform: translateX(-50%);
-            display: flex;
-            gap: 20px;
-            z-index: 5;
-        }
-
-        .team-section {
-            width: 400px;
-            height: 280px;
-            border: 3px solid transparent;
-            border-radius: 8px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .team-section.super-giants {
-            border-color: #4a90e2;
-            background: linear-gradient(135deg, rgba(74, 144, 226, 0.1), rgba(74, 144, 226, 0.2));
-        }
-
-        .team-section.royal-challengers {
-            border-color: #e74c3c;
-            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(231, 76, 60, 0.2));
-        }
-
-        .team-header {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 12px;
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
-            text-align: center;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-        }
-
-        .team-header.super-giants {
-            background: linear-gradient(135deg, #4a90e2, #357abd);
-        }
-
-        .team-header.royal-challengers {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            width: 120px;
+            height: 120px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%23ff6b35" stroke="%23fff" stroke-width="3"/><text x="50" y="35" text-anchor="middle" fill="white" font-size="16" font-weight="bold">TATA</text><text x="50" y="50" text-anchor="middle" fill="white" font-size="20" font-weight="bold">IPL</text><text x="50" y="65" text-anchor="middle" fill="white" font-size="12" font-weight="bold">AUCTION</text></svg>') no-repeat center;
+            background-size: contain;
+            z-index: 10;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
         }
 
         /* Player Info Section */
         .player-info-container {
             position: absolute;
-            bottom: 60px;
+            bottom: 80px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             align-items: end;
-            gap: 20px;
+            gap: 30px;
             z-index: 10;
         }
 
@@ -127,15 +78,16 @@
         }
 
         .player-image {
-            width: 120px;
-            height: 120px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
-            border: 4px solid #00ff88;
+            border: 5px solid #00ff88;
             background: linear-gradient(45deg, #1a1a1a, #333);
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,255,136,0.3);
         }
 
         .player-image img {
@@ -146,54 +98,75 @@
         }
 
         .player-placeholder {
-            font-size: 48px;
+            font-size: 60px;
             color: #666;
         }
 
         /* Auction Info Panel */
         .auction-info-panel {
             background: linear-gradient(135deg, rgba(0, 50, 50, 0.95), rgba(0, 80, 80, 0.95));
-            border: 2px solid #00ff88;
-            border-radius: 8px;
-            padding: 20px 30px;
-            min-width: 400px;
-            backdrop-filter: blur(15px);
+            border: 3px solid #00ff88;
+            border-radius: 12px;
+            padding: 25px 40px;
+            min-width: 500px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 10px 30px rgba(0,255,136,0.2);
         }
 
         .player-name {
             color: white;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
         .price-info {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 30px;
+            gap: 40px;
         }
 
         .price-section {
             text-align: center;
             color: white;
+            flex: 1;
         }
 
         .price-label {
-            font-size: 12px;
+            font-size: 14px;
             opacity: 0.8;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+            font-weight: 500;
         }
 
         .price-value {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: bold;
             color: #00ff88;
+            text-shadow: 0 2px 4px rgba(0,255,136,0.3);
+        }
+
+        /* Current Bidder Info */
+        .current-bidder-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0,255,136,0.3);
+            text-align: center;
+        }
+
+        .current-bidder {
+            color: #00ff88;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         /* Animation Overlays */
@@ -245,8 +218,8 @@
 
         .confetti {
             position: absolute;
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             background: #00ff88;
             animation: confetti-fall 3s linear infinite;
         }
@@ -256,119 +229,73 @@
             100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
 
-        /* Team Wallets Panel */
-        .wallets-panel {
+        /* Live Indicator */
+        .live-indicator {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 280px;
-            max-height: 400px;
-            background: rgba(0, 0, 0, 0.85);
-            border: 2px solid #00ff88;
-            border-radius: 8px;
-            padding: 15px;
-            backdrop-filter: blur(15px);
-            overflow-y: auto;
-        }
-
-        .wallets-title {
-            color: #00ff88;
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            text-align: center;
-            text-transform: uppercase;
-        }
-
-        .wallet-item {
-            background: rgba(255, 255, 255, 0.1);
-            border-left: 4px solid #00ff88;
-            padding: 10px;
-            margin: 8px 0;
-            border-radius: 4px;
-        }
-
-        .wallet-team {
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .wallet-balance {
-            color: #00ff88;
-            font-size: 12px;
-            margin-top: 2px;
-        }
-
-        /* Status Indicators */
-        .status-indicator {
-            position: absolute;
-            top: 50%;
+            top: 30px;
             right: 30px;
-            transform: translateY(-50%);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            font-weight: bold;
-            animation: pulse 2s infinite;
-        }
-
-        .status-indicator.active {
-            background: #00ff88;
-            color: black;
-        }
-
-        .status-indicator.inactive {
-            background: #666;
+            background: #ff0000;
             color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 16px;
+            animation: pulse 2s infinite;
+            box-shadow: 0 4px 15px rgba(255,0,0,0.4);
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
         /* Responsive Design */
-        @media (max-width: 1200px) {
-            .teams-container {
-                flex-direction: column;
-                gap: 15px;
-                top: 40px;
-            }
-            
-            .team-section {
-                width: 350px;
-                height: 200px;
-            }
-            
+        @media (max-width: 768px) {
             .player-info-container {
+                flex-direction: column;
+                align-items: center;
                 bottom: 40px;
+                gap: 20px;
             }
             
             .auction-info-panel {
                 min-width: 320px;
-                padding: 15px 20px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .teams-container {
-                display: none;
+                padding: 20px 25px;
             }
             
-            .player-info-container {
-                flex-direction: column;
-                align-items: center;
-                bottom: 20px;
+            .player-name {
+                font-size: 22px;
             }
             
-            .wallets-panel {
-                position: relative;
-                margin: 20px auto;
-                width: 90%;
+            .price-info {
+                gap: 20px;
+            }
+            
+            .price-value {
+                font-size: 20px;
             }
             
             .sold-text, .unsold-text {
                 font-size: 4rem;
+            }
+            
+            .ipl-logo {
+                width: 80px;
+                height: 80px;
+                top: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .price-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .auction-info-panel {
+                min-width: 280px;
+                padding: 15px 20px;
             }
         }
     </style>
@@ -388,18 +315,8 @@
         <!-- IPL Logo -->
         <div class="ipl-logo"></div>
 
-        <!-- Team Sections -->
-        <div class="teams-container">
-            <div class="team-section super-giants">
-                <div class="team-header super-giants">SUPER GIANTS</div>
-                <div class="status-indicator active" id="superGiantsStatus">⭐</div>
-            </div>
-            
-            <div class="team-section royal-challengers">
-                <div class="team-header royal-challengers">ROYAL CHALLENGERS</div>
-                <div class="status-indicator inactive" id="rcbStatus">⭐</div>
-            </div>
-        </div>
+        <!-- Live Indicator -->
+        <div class="live-indicator">● LIVE</div>
 
         <!-- Player Info Section -->
         <div class="player-info-container">
@@ -420,14 +337,15 @@
                         <div class="price-label">CURRENT BID</div>
                         <div class="price-value" id="currentBid">₹5.00cr</div>
                     </div>
+                    <div class="price-section">
+                        <div class="price-label">MIN INCREMENT</div>
+                        <div class="price-value" id="minIncrement">₹25L</div>
+                    </div>
+                </div>
+                <div class="current-bidder-section">
+                    <div class="current-bidder" id="currentBidder">No current bidder</div>
                 </div>
             </div>
-        </div>
-
-        <!-- Team Wallets Panel -->
-        <div class="wallets-panel">
-            <div class="wallets-title">Team Wallets</div>
-            <div id="walletsList"></div>
         </div>
 
         <!-- Animation Overlay -->
@@ -512,48 +430,17 @@
                     `₹${this.formatAmount(data.basePrice)}`;
                 document.getElementById('currentBid').textContent = 
                     `₹${this.formatAmount(data.currentBid)}`;
+                document.getElementById('minIncrement').textContent = 
+                    `₹${this.formatAmount(data.minIncrement)}`;
 
-                // Update team status indicators
-                this.updateTeamStatus(data);
-
-                // Update wallets list
-                this.updateWalletsList(data.wallets || []);
-            }
-
-            updateTeamStatus(data) {
-                const superGiantsStatus = document.getElementById('superGiantsStatus');
-                const rcbStatus = document.getElementById('rcbStatus');
-                
-                // Reset all statuses
-                superGiantsStatus.className = 'status-indicator inactive';
-                rcbStatus.className = 'status-indicator inactive';
-
-                // Highlight current bidding team
-                if (data.currentBidTeamId) {
-                    const currentTeam = data.wallets?.find(w => w.teamId === data.currentBidTeamId);
-                    if (currentTeam) {
-                        if (currentTeam.teamName.includes('SUPER') || currentTeam.teamName.includes('GIANTS')) {
-                            superGiantsStatus.className = 'status-indicator active';
-                        } else if (currentTeam.teamName.includes('ROYAL') || currentTeam.teamName.includes('CHALLENGERS')) {
-                            rcbStatus.className = 'status-indicator active';
-                        }
-                    }
+                // Update current bidder
+                const currentBidder = document.getElementById('currentBidder');
+                if (data.currentBidTeamId && data.wallets) {
+                    const team = data.wallets.find(w => w.teamId === data.currentBidTeamId);
+                    currentBidder.textContent = team ? `Current Bidder: ${team.teamName}` : 'No current bidder';
+                } else {
+                    currentBidder.textContent = 'No current bidder';
                 }
-            }
-
-            updateWalletsList(wallets) {
-                const walletsList = document.getElementById('walletsList');
-                walletsList.innerHTML = '';
-
-                wallets.forEach(wallet => {
-                    const walletItem = document.createElement('div');
-                    walletItem.className = 'wallet-item';
-                    walletItem.innerHTML = `
-                        <div class="wallet-team">${wallet.teamName}</div>
-                        <div class="wallet-balance">₹${this.formatAmount(wallet.remainingBalance)}</div>
-                    `;
-                    walletsList.appendChild(walletItem);
-                });
             }
 
             checkForPlayerChange(data) {
