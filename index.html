@@ -60,58 +60,6 @@
             filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
         }
 
-        /* Team Wallets Panel - Top Right */
-        .wallets-panel {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 280px;
-            max-height: 350px;
-            background: rgba(0, 0, 0, 0.85);
-            border: 2px solid #00ff88;
-            border-radius: 8px;
-            padding: 15px;
-            backdrop-filter: blur(15px);
-            overflow-y: auto;
-            z-index: 10;
-        }
-
-        .wallets-title {
-            color: #00ff88;
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            text-align: center;
-            text-transform: uppercase;
-        }
-
-        .wallet-item {
-            background: rgba(255, 255, 255, 0.1);
-            border-left: 4px solid #00ff88;
-            padding: 10px;
-            margin: 8px 0;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-
-        .wallet-item.current-bidder {
-            background: rgba(0, 255, 136, 0.2);
-            border-left-color: #ffff00;
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
-        }
-
-        .wallet-team {
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .wallet-balance {
-            color: #00ff88;
-            font-size: 12px;
-            margin-top: 2px;
-        }
-
         /* Player Info Section */
         .player-info-container {
             position: absolute;
@@ -284,39 +232,25 @@
             100% { transform: translateY(50vh) rotate(360deg); opacity: 0; }
         }
 
-        /* Live Indicator */
-        .live-indicator {
-            position: absolute;
-            top: 20px;
-            right: 320px;
-            background: #ff0000;
+        /* Error Message */
+        .error-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 68, 68, 0.9);
             color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 14px;
-            animation: pulse 2s infinite;
-            box-shadow: 0 4px 15px rgba(255,0,0,0.4);
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.05); }
-            100% { opacity: 1; transform: scale(1); }
+            padding: 15px 25px;
+            border-radius: 8px;
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+            border: 2px solid #ff4444;
+            font-size: 16px;
+            text-align: center;
+            display: none;
         }
 
         /* Responsive Design */
-        @media (max-width: 1024px) {
-            .wallets-panel {
-                width: 250px;
-                top: 130px;
-            }
-            
-            .live-indicator {
-                right: 270px;
-            }
-        }
-
         @media (max-width: 768px) {
             .player-info-container {
                 flex-direction: column;
@@ -346,17 +280,23 @@
                 font-size: 2.5rem;
             }
             
-            .wallets-panel {
-                position: relative;
-                margin: 20px auto;
-                width: 90%;
-            }
-            
             .ipl-logo {
                 width: 70px;
                 height: 70px;
                 top: 15px;
                 left: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .price-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .auction-info-panel {
+                min-width: 280px;
+                padding: 15px 20px;
             }
         }
     </style>
@@ -376,14 +316,8 @@
         <!-- IPL Logo - Left Top -->
         <div class="ipl-logo"></div>
 
-        <!-- Live Indicator -->
-        <div class="live-indicator">● LIVE</div>
-
-        <!-- Team Wallets Panel - Top Right -->
-        <div class="wallets-panel">
-            <div class="wallets-title">Team Wallets</div>
-            <div id="walletsList"></div>
-        </div>
+        <!-- Error Message -->
+        <div class="error-message" id="errorMessage">Connection error. Retrying...</div>
 
         <!-- Player Info Section -->
         <div class="player-info-container">
@@ -406,7 +340,7 @@
                     </div>
                 </div>
                 <div class="current-bidder-section">
-                    <div class="current-bidder" id="currentBidder">No current bidder</div>
+                    <div class="current-bidder" id="currentBidder">NO CURRENT BIDDER</div>
                 </div>
             </div>
         </div>
@@ -425,11 +359,10 @@
             constructor() {
                 this.tournamentId = this.getTournamentIdFromParams();
                 this.videoUrl = this.getVideoUrlFromParams();
-                // Fixed API URL for your domain
                 this.apiUrl = `https://sportsdecor.somee.com/api/Auction/state/${this.tournamentId}`;
                 this.lastPlayerId = null;
                 this.pollInterval = null;
-                this.currentTeams = new Map(); // Store team data
+                this.currentTeams = new Map(); // Store team data for ID mapping
                 this.init();
             }
 
@@ -476,6 +409,7 @@
 
                     if (response.ok) {
                         const data = await response.json();
+                        this.hideError();
                         this.updateUI(data);
                         this.checkForPlayerChange(data);
                     } else {
@@ -488,7 +422,7 @@
             }
 
             updateUI(data) {
-                // Store teams data for mapping
+                // Create team mapping from wallets
                 if (data.wallets && data.wallets.length > 0) {
                     this.currentTeams.clear();
                     data.wallets.forEach(team => {
@@ -500,44 +434,20 @@
                 document.getElementById('playerName').textContent = 
                     data.playerId ? `PLAYER #${data.playerId}` : 'RISHABH PANT';
                 
-                // Update bid information (removed min increment)
+                // Update bid information
                 document.getElementById('basePrice').textContent = 
                     `₹${this.formatAmount(data.basePrice)}`;
                 document.getElementById('currentBid').textContent = 
                     `₹${this.formatAmount(data.currentBid)}`;
 
-                // Update current bidder with team name mapping
+                // Update current bidder using team ID mapping
                 const currentBidder = document.getElementById('currentBidder');
                 if (data.currentBidTeamId && this.currentTeams.has(data.currentBidTeamId)) {
                     const team = this.currentTeams.get(data.currentBidTeamId);
-                    currentBidder.textContent = `Current Bidder: ${team.teamName}`;
+                    currentBidder.textContent = team.teamName.toUpperCase();
                 } else {
-                    currentBidder.textContent = 'No current bidder';
+                    currentBidder.textContent = 'NO CURRENT BIDDER';
                 }
-
-                // Update wallets list with current bidder highlighting
-                this.updateWalletsList(data.wallets || [], data.currentBidTeamId);
-            }
-
-            updateWalletsList(wallets, currentBidTeamId) {
-                const walletsList = document.getElementById('walletsList');
-                walletsList.innerHTML = '';
-
-                wallets.forEach(wallet => {
-                    const walletItem = document.createElement('div');
-                    walletItem.className = 'wallet-item';
-                    
-                    // Highlight current bidder
-                    if (wallet.teamId === currentBidTeamId) {
-                        walletItem.classList.add('current-bidder');
-                    }
-                    
-                    walletItem.innerHTML = `
-                        <div class="wallet-team">${wallet.teamName}</div>
-                        <div class="wallet-balance">₹${this.formatAmount(wallet.remainingBalance)}</div>
-                    `;
-                    walletsList.appendChild(walletItem);
-                });
             }
 
             checkForPlayerChange(data) {
@@ -560,7 +470,7 @@
                 animationText.textContent = 'SOLD!';
                 animationText.className = 'sold-text';
                 playerInfo.innerHTML = `
-                    <div style="font-size: 1.5rem; margin: 15px 0; color: white;">to ${teamName}</div>
+                    <div style="font-size: 1.5rem; margin: 15px 0; color: white;">to ${teamName.toUpperCase()}</div>
                     <div style="font-size: 2rem; color: #00ff88; font-weight: bold;">₹${this.formatAmount(price)}</div>
                 `;
 
@@ -618,27 +528,14 @@
             }
 
             showError(message) {
-                const errorDiv = document.createElement('div');
-                errorDiv.style.cssText = `
-                    position: fixed;
-                    top: 20px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    background: rgba(255, 68, 68, 0.9);
-                    color: white;
-                    padding: 12px 20px;
-                    border-radius: 8px;
-                    z-index: 2000;
-                    backdrop-filter: blur(10px);
-                    border: 2px solid #ff4444;
-                    font-size: 14px;
-                `;
-                errorDiv.textContent = message;
-                document.body.appendChild(errorDiv);
+                const errorElement = document.getElementById('errorMessage');
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+            }
 
-                setTimeout(() => {
-                    errorDiv.remove();
-                }, 3000);
+            hideError() {
+                const errorElement = document.getElementById('errorMessage');
+                errorElement.style.display = 'none';
             }
 
             destroy() {
