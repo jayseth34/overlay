@@ -304,21 +304,13 @@
 <body>
     <!-- YouTube Video Background -->
     <div class="video-background">
-        <iframe id="backgroundVideo" 
-                src="" 
-                frameborder="0" 
-                allow="autoplay; encrypted-media" 
-                allowfullscreen>
-        </iframe>
+        <iframe id="backgroundVideo" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
-
     <div class="auction-container">
         <!-- IPL Logo - Left Top -->
-        <div class="ipl-logo"></div>
-
+        <div class="ipl-logo" id="iplLogo"></div>
         <!-- Error Message -->
         <div class="error-message" id="errorMessage">Connection error. Retrying...</div>
-
         <!-- Player Info Section -->
         <div class="player-info-container">
             <div class="player-image-section">
@@ -326,17 +318,16 @@
                     <div class="player-placeholder">👤</div>
                 </div>
             </div>
-            
             <div class="auction-info-panel">
-                <div class="player-name" id="playerName">RISHABH PANT</div>
+                <div class="player-name" id="playerName"></div>
                 <div class="price-info">
                     <div class="price-section">
                         <div class="price-label">BASE PRICE</div>
-                        <div class="price-value" id="basePrice">₹2.00cr</div>
+                        <div class="price-value" id="basePrice"></div>
                     </div>
                     <div class="price-section">
                         <div class="price-label">CURRENT BID</div>
-                        <div class="price-value" id="currentBid">₹5.00cr</div>
+                        <div class="price-value" id="currentBid"></div>
                     </div>
                 </div>
                 <div class="current-bidder-section">
@@ -344,7 +335,6 @@
                 </div>
             </div>
         </div>
-
         <!-- Animation Overlay -->
         <div class="animation-overlay" id="animationOverlay">
             <div class="sold-animation" id="soldAnimation">
@@ -353,7 +343,6 @@
             </div>
         </div>
     </div>
-
     <script>
         class AuctionUI {
             constructor() {
@@ -362,15 +351,15 @@
                 this.apiUrl = `https://sportsdecor.somee.com/api/Auction/state/${this.tournamentId}`;
                 this.lastPlayerId = null;
                 this.pollInterval = null;
-                this.currentTeams = new Map(); // Store team data for ID mapping
+                this.currentTeams = new Map();
+                this.tournImgSet = false;
+                this.tournImg = "";
                 this.init();
             }
-
             getTournamentIdFromParams() {
                 const urlParams = new URLSearchParams(window.location.search);
-                return urlParams.get('tournamentId') || '81';
+                return urlParams.get('tournamentId') || '59';
             }
-
             getVideoUrlFromParams() {
                 const urlParams = new URLSearchParams(window.location.search);
                 const target = urlParams.get('target');
@@ -379,25 +368,20 @@
                 }
                 return 'https://www.youtube.com/embed/rOUuGvJkBrQ?autoplay=1&mute=1&loop=1&playlist=rOUuGvJkBrQ&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1';
             }
-
             init() {
                 this.setupVideo();
                 this.startPolling();
             }
-
             setupVideo() {
                 const iframe = document.getElementById('backgroundVideo');
                 iframe.src = this.videoUrl;
             }
-
             startPolling() {
                 this.pollInterval = setInterval(() => {
                     this.fetchAuctionData();
                 }, 2000);
-
                 this.fetchAuctionData();
             }
-
             async fetchAuctionData() {
                 try {
                     const response = await fetch(this.apiUrl, {
@@ -406,9 +390,9 @@
                             'accept': 'text/plain'
                         }
                     });
-
                     if (response.ok) {
-                        const data = await response.json();
+                        const resp = await response.json();
+                        const data = resp.data || resp; // handle raw vs. wrapped
                         this.hideError();
                         this.updateUI(data);
                         this.checkForPlayerChange(data);
@@ -420,39 +404,51 @@
                     this.showError('Connection error. Retrying...');
                 }
             }
-
             updateUI(data) {
-                // Create team mapping from wallets
-                if (data.wallets && data.wallets.length > 0) {
-                    this.currentTeams.clear();
-                    data.wallets.forEach(team => {
-                        this.currentTeams.set(team.teamId, team);
-                    });
+                // Setup IPL/Tournament logo only once
+                if (!this.tournImgSet && data.tournImg) {
+                    this.tournImg = data.tournImg;
+                    const iplLogoDiv = document.getElementById('iplLogo');
+                    iplLogoDiv.style.background = `url('${this.tournImg}') no-repeat center`;
+                    iplLogoDiv.style.backgroundSize = "contain";
+                    this.tournImgSet = true;
                 }
-
-                // Update player info
-                document.getElementById('playerName').textContent = 
-                    data.playerId ? `PLAYER #${data.playerId}` : 'RISHABH PANT';
-                
-                // Update bid information
-                document.getElementById('basePrice').textContent = 
-                    `₹${this.formatAmount(data.basePrice)}`;
-                document.getElementById('currentBid').textContent = 
-                    `₹${this.formatAmount(data.currentBid)}`;
-
-                // Update current bidder using team ID mapping
-                const currentBidder = document.getElementById('currentBidder');
+                // Prepare team ID mapping for bidder display
+                if (data.wallets && data.wallets.length > 0) {
+                    this.currentTeams = new Map(data.wallets.map(team => [team.teamId, team]));
+                }
+                // Player name (takes from playerName, all upper-case)
+                document.getElementById('playerName').textContent = data.playerName ? data.playerName.toUpperCase() : '';
+                // Player image
+                const playerImgDiv = document.getElementById('playerImage');
+                playerImgDiv.innerHTML = '';
+                if (data.playerImg) {
+                    const img = document.createElement('img');
+                    img.src = data.playerImg;
+                    img.alt = data.playerName || 'Player Photo';
+                    img.onerror = () => {
+                        playerImgDiv.innerHTML = `<div class="player-placeholder">👤</div>`;
+                    };
+                    playerImgDiv.appendChild(img);
+                } else {
+                    playerImgDiv.innerHTML = `<div class="player-placeholder">👤</div>`;
+                }
+                // Bid values
+                document.getElementById('basePrice').textContent = '₹' + this.formatAmount(data.basePrice);
+                document.getElementById('currentBid').textContent = '₹' + this.formatAmount(data.currentBid);
+                // Current bidder team logic
+                const currentBidderDiv = document.getElementById('currentBidder');
                 if (data.currentBidTeamId && this.currentTeams.has(data.currentBidTeamId)) {
                     const team = this.currentTeams.get(data.currentBidTeamId);
-                    currentBidder.textContent = team.teamName.toUpperCase();
+                    currentBidderDiv.textContent = team.teamName.toUpperCase();
                 } else {
-                    currentBidder.textContent = 'NO CURRENT BIDDER';
+                    currentBidderDiv.textContent = "NO CURRENT BIDDER";
                 }
             }
-
             checkForPlayerChange(data) {
+                // When new player comes in, trigger animation
                 if (this.lastPlayerId !== null && this.lastPlayerId !== data.playerId) {
-                    if (data.currentBidTeamId > 0) {
+                    if (data.currentBidTeamId && data.currentBidTeamId > 0) {
                         const team = this.currentTeams.get(data.currentBidTeamId);
                         this.showSoldAnimation(team?.teamName || 'Unknown Team', data.currentBid);
                     } else {
@@ -461,46 +457,36 @@
                 }
                 this.lastPlayerId = data.playerId;
             }
-
             showSoldAnimation(teamName, price) {
                 const overlay = document.getElementById('animationOverlay');
                 const animationText = document.getElementById('animationText');
                 const playerInfo = document.getElementById('animationPlayerInfo');
-
                 animationText.textContent = 'SOLD!';
                 animationText.className = 'sold-text';
                 playerInfo.innerHTML = `
                     <div style="font-size: 1.5rem; margin: 15px 0; color: white;">to ${teamName.toUpperCase()}</div>
                     <div style="font-size: 2rem; color: #00ff88; font-weight: bold;">₹${this.formatAmount(price)}</div>
                 `;
-
                 overlay.style.display = 'flex';
                 this.createConfetti();
-
                 setTimeout(() => {
                     overlay.style.display = 'none';
                 }, 3000);
             }
-
             showUnsoldAnimation() {
                 const overlay = document.getElementById('animationOverlay');
                 const animationText = document.getElementById('animationText');
                 const playerInfo = document.getElementById('animationPlayerInfo');
-
                 animationText.textContent = 'UNSOLD';
                 animationText.className = 'unsold-text';
                 playerInfo.innerHTML = '<div style="font-size: 1.2rem; margin: 15px 0; color: white;">Better luck next time!</div>';
-
                 overlay.style.display = 'flex';
-
                 setTimeout(() => {
                     overlay.style.display = 'none';
                 }, 3000);
             }
-
             createConfetti() {
                 const colors = ['#00ff88', '#ff6b35', '#4a90e2', '#e74c3c'];
-                
                 for (let i = 0; i < 30; i++) {
                     setTimeout(() => {
                         const confetti = document.createElement('div');
@@ -509,48 +495,39 @@
                         confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                         confetti.style.animationDelay = Math.random() * 2 + 's';
                         document.body.appendChild(confetti);
-
                         setTimeout(() => {
                             confetti.remove();
                         }, 2000);
                     }, i * 50);
                 }
             }
-
             formatAmount(amount) {
+                amount = Number(amount) || 0;
                 if (amount >= 10000000) {
                     return (amount / 10000000).toFixed(2) + 'cr';
                 } else if (amount >= 100000) {
                     return (amount / 100000).toFixed(1) + 'L';
                 } else {
-                    return amount?.toLocaleString() || '0';
+                    return amount.toLocaleString();
                 }
             }
-
             showError(message) {
                 const errorElement = document.getElementById('errorMessage');
                 errorElement.textContent = message;
                 errorElement.style.display = 'block';
             }
-
             hideError() {
                 const errorElement = document.getElementById('errorMessage');
                 errorElement.style.display = 'none';
             }
-
             destroy() {
-                if (this.pollInterval) {
-                    clearInterval(this.pollInterval);
-                }
+                if (this.pollInterval) clearInterval(this.pollInterval);
             }
         }
-
-        // Initialize the auction UI when page loads
+        // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             window.auctionUI = new AuctionUI();
         });
-
-        // Clean up on page unload
         window.addEventListener('beforeunload', () => {
             if (window.auctionUI) {
                 window.auctionUI.destroy();
