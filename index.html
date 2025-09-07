@@ -1,462 +1,425 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>IPL Auction Live</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-    font-family: 'Arial', sans-serif;
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
-    background: transparent;  /* no color at all */
-}
-        /* Removed video-background CSS */
-
-        .auction-container {
-    position: relative;
-    height: 100vh;
-    z-index: 1;
-    background: transparent;
-}
-
-        /* IPL Logo - Left Top */
-        .ipl-logo {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            width: 100px;
-            height: 100px;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%23ff6b35" stroke="%23fff" stroke-width="3"/><text x="50" y="30" text-anchor="middle" fill="white" font-size="12" font-weight="bold">TATA</text><text x="50" y="50" text-anchor="middle" fill="white" font-size="18" font-weight="bold">IPL</text><text x="50" y="68" text-anchor="middle" fill="white" font-size="10" font-weight="bold">AUCTION</text></svg>') no-repeat center;
-            background-size: contain;
-            z-index: 10;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
-        }
-        /* Player Info Section */
-        .player-info-container {
-            position: absolute;
-            bottom: 60px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            align-items: end;
-            gap: 30px;
-            z-index: 10;
-        }
-        .player-image-section {
-            position: relative;
-        }
-        .player-image {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 4px solid #00ff88;
-            background: linear-gradient(45deg, #1a1a1a, #333);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0,255,136,0.3);
-        }
-        .player-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-        }
-        .player-placeholder {
-            font-size: 50px;
-            color: #666;
-        }
-        /* Auction Info Panel */
-        .auction-info-panel {
-            background: linear-gradient(135deg, rgba(0, 50, 50, 0.95), rgba(0, 80, 80, 0.95));
-            border: 3px solid #00ff88;
-            border-radius: 12px;
-            padding: 20px 35px;
-            min-width: 450px;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 10px 30px rgba(0,255,136,0.2);
-        }
-        .player-name {
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-        .price-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 40px;
-        }
-        .price-section {
-            text-align: center;
-            color: white;
-            flex: 1;
-        }
-        .price-label {
-            font-size: 12px;
-            opacity: 0.8;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 500;
-        }
-        .price-value {
-            font-size: 20px;
-            font-weight: bold;
-            color: #00ff88;
-            text-shadow: 0 2px 4px rgba(0,255,136,0.3);
-        }
-        /* Current Bidder Info */
-        .current-bidder-section {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(0,255,136,0.3);
-            text-align: center;
-        }
-        .current-bidder {
-            color: #00ff88;
-            font-size: 14px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        /* Animation Overlay - Smaller */
-        .animation-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(8px);
-        }
-        .sold-animation {
-            text-align: center;
-            color: white;
-            animation: soldBounce 2s ease-in-out;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 40px;
-            border-radius: 20px;
-            border: 3px solid #00ff88;
-        }
-        .sold-text {
-            font-size: 4rem;
-            font-weight: bold;
-            color: #00ff88;
-            text-shadow: 0 0 30px #00ff88;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
-        .unsold-text {
-            font-size: 4rem;
-            font-weight: bold;
-            color: #ff4444;
-            text-shadow: 0 0 30px #ff4444;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
-        @keyframes soldBounce {
-            0% { transform: scale(0.8) rotate(0deg); opacity: 0; }
-            50% { transform: scale(1.1) rotate(5deg); opacity: 1; }
-            100% { transform: scale(1) rotate(0deg); opacity: 1; }
-        }
-        .confetti {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: #00ff88;
-            animation: confetti-fall 2s linear infinite;
-        }
-        @keyframes confetti-fall {
-            0% { transform: translateY(-50vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(50vh) rotate(360deg); opacity: 0; }
-        }
-        /* Error Message */
-        .error-message {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(255, 68, 68, 0.9);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 8px;
-            z-index: 2000;
-            backdrop-filter: blur(10px);
-            border: 2px solid #ff4444;
-            font-size: 16px;
-            text-align: center;
-            display: none;
-        }
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .player-info-container {
-                flex-direction: column;
-                align-items: center;
-                bottom: 40px;
-                gap: 20px;
-            }
-            .auction-info-panel {
-                min-width: 320px;
-                padding: 15px 25px;
-            }
-            .player-name {
-                font-size: 20px;
-            }
-            .price-info {
-                gap: 20px;
-            }
-            .price-value {
-                font-size: 18px;
-            }
-            .sold-text, .unsold-text {
-                font-size: 2.5rem;
-            }
-            .ipl-logo {
-                width: 70px;
-                height: 70px;
-                top: 15px;
-                left: 15px;
-            }
-        }
-        @media (max-width: 480px) {
-            .price-info {
-                flex-direction: column;
-                gap: 15px;
-            }
-            .auction-info-panel {
-                min-width: 280px;
-                padding: 15px 20px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Auction UI Responsive</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f7feff;
+      min-height: 100vh;
+    }
+    .auction-container {
+      display: grid;
+      grid-template-columns: 330px 1fr 330px;
+      grid-gap: 12px;
+      align-items: end;
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+    }
+    /* Big sticky logo */
+    .tournament-logo {
+      position: fixed;
+      top: 25px;
+      left: 24px;
+      z-index: 20;
+      width: 108px;
+      height: 108px;
+      background: #f3fff0;
+      border-radius: 17px;
+      box-shadow: 0 6px 18px #23dca928;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 4px solid #c9fff0;
+    }
+    .tournament-logo img {
+      width: 90px; height: 90px; object-fit: contain;
+      border-radius: 14px;
+      display: block;
+    }
+    .player-details-card {
+      background: #e6fcfa;
+      border-radius: 13px;
+      margin: 80px 0 0 22px;
+      padding: 28px 18px 25px 33px;
+      color: #009fa7;
+      font-size: 18px;
+      min-width: 220px;
+      min-height: 210px;
+      box-shadow: 0 6px 18px #10efd122;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      align-items: flex-start;
+    }
+    .detail-row[hidden] { display: none !important; }
+    .detail-label {
+      font-weight: bold;
+      margin-right: 7px;
+    }
+    .center-bid-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 70px;
+      position: relative;
+      min-width: 240px;
+    }
+    .player-image-container {
+      border: 3px solid #08bba3;
+      border-radius: 50%;
+      width: 115px; height: 115px;
+      overflow: hidden;
+      margin-bottom: 10px;
+      margin-top: 35px;
+      background: #eafffa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .player-image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .current-bid-label {
+      background: #4cf7b5;
+      color: #045c58;
+      padding: 8px 24px 8px 24px;
+      border-radius: 11px 11px 0 0;
+      font-weight: 600;
+      margin-top: 16px;
+      font-size: 15px;
+      letter-spacing: 1.1px;
+    }
+    .current-bid-value {
+      background: #fff;
+      color: #258f73;
+      padding: 10px 32px 13px 32px;
+      border-radius: 0 0 13px 13px;
+      font-size: 23px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      box-shadow: 0 2px 7px #17b7a820;
+      letter-spacing: 1.4px;
+    }
+    .current-bidder {
+      margin-top: 11px;
+      color: #266870;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 1.18px;
+      background: #e6fcfce7;
+      border-radius: 6px;
+      padding: 5px 14px;
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .teams-table-card {
+      background: #daeefd;
+      border-radius: 14px;
+      margin: 80px 28px 0 0;
+      padding: 21px 0 17px 0;
+      color: #009ed9;
+      min-width: 225px;
+      min-height: 205px;
+      box-shadow: 0 6px 18px #208fb222;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .teams-table-card table {
+      width: 98%;
+      margin: auto;
+      border-spacing: 0;
+    }
+    .teams-table-card th, .teams-table-card td {
+      padding: 8px 8px;
+      text-align: left;
+      font-size: 16px;
+    }
+    .teams-table-card th {
+      color: #1366a0;
+      font-weight: 700;
+      text-transform: uppercase;
+      border-bottom: 2px solid #20a7d6;
+    }
+    .teams-table-card td {
+      color: #228aa1;
+      border-bottom: 1px solid #b0dad5;
+    }
+    /* Animation Overlay */
+    .animation-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.68);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      backdrop-filter: blur(3px);
+    }
+    .sold-animation {
+      text-align: center;
+      color: white;
+      animation: soldBounce 2s;
+      background: rgba(16, 32, 32, 0.95);
+      padding: 45px 65px 38px 65px;
+      border-radius: 23px;
+      border: 4px solid #00ff88;
+      box-shadow: 0 11px 24px #00ff8822;
+    }
+    .sold-text {
+      font-size: 4.2rem;
+      font-weight: bold;
+      color: #00ff88;
+      text-shadow: 0 0 28px #00ff88;
+      margin-bottom: 22px;
+      text-transform: uppercase;
+    }
+    .unsold-text {
+      font-size: 4.2rem;
+      font-weight: bold;
+      color: #ff4444;
+      text-shadow: 0 0 22px #ff4444;
+      margin-bottom: 22px;
+      text-transform: uppercase;
+    }
+    @keyframes soldBounce {
+      0% { transform: scale(0.8) rotate(0deg); opacity: 0; }
+      50% { transform: scale(1.1) rotate(6deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+    @media (max-width: 1200px) {
+      .auction-container { grid-template-columns: 1fr 1.8fr 1fr;}
+      .teams-table-card { margin-right: 3vw;}
+      .player-details-card { margin-left: 15px;}
+    }
+    @media (max-width: 950px) {
+      .auction-container { grid-template-columns: 1fr; }
+      .player-details-card, .teams-table-card { margin: 27px auto; min-width: 200px;}
+      .center-bid-section { padding-bottom: 23px; }
+      .teams-table-card, .player-details-card { width: 94vw; }
+      .teams-table-card table { width: 99%; }
+      .tournament-logo { left: 16vw; top: 18px;}
+    }
+    @media (max-width: 670px) {
+      .player-details-card, .teams-table-card { padding: 14px 3vw;}
+      .center-bid-section { padding-bottom: 9px; }
+      .tournament-logo { width: 60px; height: 60px; left: 9vw;}
+      .tournament-logo img { width: 50px; height: 50px;}
+    }
+    @media (max-width: 400px) {
+      .player-details-card, .teams-table-card { padding: 9px 4vw; }
+      .tournament-logo { width: 36px; height: 36px;}
+      .tournament-logo img { width: 30px; height: 30px;}
+    }
+  </style>
 </head>
 <body>
-    <div class="auction-container">
-        <!-- IPL Logo - Left Top -->
-        <div class="ipl-logo" id="iplLogo"></div>
-        <!-- Error Message -->
-        <div class="error-message" id="errorMessage">Connection error. Retrying...</div>
-        <!-- Player Info Section -->
-        <div class="player-info-container">
-            <div class="player-image-section">
-                <div class="player-image" id="playerImage">
-                    <div class="player-placeholder">👤</div>
-                </div>
-            </div>
-            <div class="auction-info-panel">
-                <div class="player-name" id="playerName"></div>
-                <div class="price-info">
-                    <div class="price-section">
-                        <div class="price-label">BASE PRICE</div>
-                        <div class="price-value" id="basePrice"></div>
-                    </div>
-                    <div class="price-section">
-                        <div class="price-label">CURRENT BID</div>
-                        <div class="price-value" id="currentBid"></div>
-                    </div>
-                </div>
-                <div class="current-bidder-section">
-                    <div class="current-bidder" id="currentBidder">NO CURRENT BIDDER</div>
-                </div>
-            </div>
-        </div>
-        <!-- Animation Overlay -->
-        <div class="animation-overlay" id="animationOverlay">
-            <div class="sold-animation" id="soldAnimation">
-                <div class="sold-text" id="animationText">SOLD!</div>
-                <div class="player-info" id="animationPlayerInfo"></div>
-            </div>
-        </div>
+  <div class="tournament-logo" id="tournLogo" style="display:none;">
+    <img id="tournLogoImg" src="" alt="Tournament Logo" />
+  </div>
+  <div class="auction-container">
+    <!-- Left: Player Info Card -->
+    <div class="player-details-card">
+      <div id="playerName" class="detail-row"></div>
+      <div id="ageRow" class="detail-row" hidden>
+        <span class="detail-label">Age:</span> <span id="playerAge"></span>
+      </div>
+      <div id="roleRow" class="detail-row" hidden>
+        <span class="detail-label">Role:</span> <span id="playerRole"></span>
+      </div>
+      <div id="availableDatesRow" class="detail-row" hidden>
+        <span class="detail-label">Available Dates:</span> <span id="playerDates"></span>
+      </div>
+      <div id="playerBasePrice" class="detail-row"></div>
     </div>
-    <script>
-        class AuctionUI {
-            constructor() {
-                this.tournamentId = this.getTournamentIdFromParams();
-                this.apiUrl = `https://sportsdecor.somee.com/api/Auction/state/${this.tournamentId}`;
-                this.lastPlayerId = null;
-                this.pollInterval = null;
-                this.currentTeams = new Map();
-                this.tournImgSet = false;
-                this.tournImg = "";
-                this.init();
-            }
-            getTournamentIdFromParams() {
-                const urlParams = new URLSearchParams(window.location.search);
-                return urlParams.get('tournamentId') || '59';
-            }
-            init() {
-                // Video removed, so no video setup
-                this.startPolling();
-            }
-            startPolling() {
-                this.pollInterval = setInterval(() => {
-                    this.fetchAuctionData();
-                }, 2000);
-                this.fetchAuctionData();
-            }
-            async fetchAuctionData() {
-                try {
-                    const response = await fetch(this.apiUrl, {
-                        method: 'GET',
-                        headers: {
-                            'accept': 'text/plain'
-                        }
-                    });
-                    if (response.ok) {
-                        const resp = await response.json();
-                        const data = resp.data || resp;
-                        this.hideError();
-                        this.updateUI(data);
-                        this.checkForPlayerChange(data);
-                    } else {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                } catch (error) {
-                    console.error('Error fetching auction data:', error);
-                    this.showError('Connection error. Retrying...');
-                }
-            }
-            updateUI(data) {
-                if (!this.tournImgSet && data.tournImg) {
-                    this.tournImg = data.tournImg;
-                    const iplLogoDiv = document.getElementById('iplLogo');
-                    iplLogoDiv.style.background = `url('${this.tournImg}') no-repeat center`;
-                    iplLogoDiv.style.backgroundSize = "contain";
-                    this.tournImgSet = true;
-                }
-                if (data.wallets && data.wallets.length > 0) {
-                    this.currentTeams = new Map(data.wallets.map(team => [team.teamId, team]));
-                }
-                document.getElementById('playerName').textContent = data.playerName ? data.playerName.toUpperCase() : '';
-                const playerImgDiv = document.getElementById('playerImage');
-                playerImgDiv.innerHTML = '';
-                if (data.playerImg) {
-                    const img = document.createElement('img');
-                    img.src = data.playerImg;
-                    img.alt = data.playerName || 'Player Photo';
-                    img.onerror = () => {
-                        playerImgDiv.innerHTML = `<div class="player-placeholder">👤</div>`;
-                    };
-                    playerImgDiv.appendChild(img);
-                } else {
-                    playerImgDiv.innerHTML = `<div class="player-placeholder">👤</div>`;
-                }
-                document.getElementById('basePrice').textContent = '₹' + this.formatAmount(data.basePrice);
-                document.getElementById('currentBid').textContent = '₹' + this.formatAmount(data.currentBid);
-                const currentBidderDiv = document.getElementById('currentBidder');
-                if (data.currentBidTeamId && this.currentTeams.has(data.currentBidTeamId)) {
-                    const team = this.currentTeams.get(data.currentBidTeamId);
-                    currentBidderDiv.textContent = team.teamName.toUpperCase();
-                } else {
-                    currentBidderDiv.textContent = "NO CURRENT BIDDER";
-                }
-            }
-            checkForPlayerChange(data) {
-                if (this.lastPlayerId !== null && this.lastPlayerId !== data.playerId) {
-                    if (data.currentBidTeamId && data.currentBidTeamId > 0) {
-                        const team = this.currentTeams.get(data.currentBidTeamId);
-                        this.showSoldAnimation(team?.teamName || 'Unknown Team', data.currentBid);
-                    } else {
-                        this.showUnsoldAnimation();
-                    }
-                }
-                this.lastPlayerId = data.playerId;
-            }
-            showSoldAnimation(teamName, price) {
-                const overlay = document.getElementById('animationOverlay');
-                const animationText = document.getElementById('animationText');
-                const playerInfo = document.getElementById('animationPlayerInfo');
-                animationText.textContent = 'SOLD!';
-                animationText.className = 'sold-text';
-                playerInfo.innerHTML = `
-                    <div style="font-size: 1.5rem; margin: 15px 0; color: white;">to ${teamName.toUpperCase()}</div>
-                    <div style="font-size: 2rem; color: #00ff88; font-weight: bold;">₹${this.formatAmount(price)}</div>
-                `;
-                overlay.style.display = 'flex';
-                this.createConfetti();
-                setTimeout(() => {
-                    overlay.style.display = 'none';
-                }, 3000);
-            }
-            showUnsoldAnimation() {
-                const overlay = document.getElementById('animationOverlay');
-                const animationText = document.getElementById('animationText');
-                const playerInfo = document.getElementById('animationPlayerInfo');
-                animationText.textContent = 'UNSOLD';
-                animationText.className = 'unsold-text';
-                playerInfo.innerHTML = '<div style="font-size: 1.2rem; margin: 15px 0; color: white;">Better luck next time!</div>';
-                overlay.style.display = 'flex';
-                setTimeout(() => {
-                    overlay.style.display = 'none';
-                }, 3000);
-            }
-            createConfetti() {
-                const colors = ['#00ff88', '#ff6b35', '#4a90e2', '#e74c3c'];
-                for (let i = 0; i < 30; i++) {
-                    setTimeout(() => {
-                        const confetti = document.createElement('div');
-                        confetti.className = 'confetti';
-                        confetti.style.left = Math.random() * 100 + 'vw';
-                        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                        confetti.style.animationDelay = Math.random() * 2 + 's';
-                        document.body.appendChild(confetti);
-                        setTimeout(() => {
-                            confetti.remove();
-                        }, 2000);
-                    }, i * 50);
-                }
-            }
-            formatAmount(amount) {
-                amount = Number(amount) || 0;
-                if (amount >= 10000000) {
-                    return (amount / 10000000).toFixed(2) + 'cr';
-                } else if (amount >= 100000) {
-                    return (amount / 100000).toFixed(1) + 'L';
-                } else {
-                    return amount.toLocaleString();
-                }
-            }
-            showError(message) {
-                const errorElement = document.getElementById('errorMessage');
-                errorElement.textContent = message;
-                errorElement.style.display = 'block';
-            }
-            hideError() {
-                const errorElement = document.getElementById('errorMessage');
-                errorElement.style.display = 'none';
-            }
-            destroy() {
-                if (this.pollInterval) clearInterval(this.pollInterval);
-            }
+    <!-- Center: Image & Bid -->
+    <div class="center-bid-section">
+      <div class="player-image-container" id="playerImage"></div>
+      <div class="current-bid-label">CURRENT BID</div>
+      <div class="current-bid-value" id="currentBid"></div>
+      <div class="current-bidder" id="currentBidder"></div>
+    </div>
+    <!-- Right: Teams Table -->
+    <div class="teams-table-card">
+      <table>
+        <thead>
+          <tr><th>Team</th><th>Balance</th><th>Players</th></tr>
+        </thead>
+        <tbody id="teamsTableBody"></tbody>
+      </table>
+    </div>
+    <!-- Animation Overlay -->
+    <div class="animation-overlay" id="animationOverlay">
+      <div class="sold-animation" id="soldAnimation">
+        <div class="sold-text" id="animationText"></div>
+        <div class="player-info" id="animationPlayerInfo"></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Get tournamentId dynamically
+    function getTournamentIdFromParams() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('tournamentId') || '59';
+    }
+
+    let apiUrl = `https://sportsdecor.somee.com/api/Auction/state/${getTournamentIdFromParams()}`;
+    let lastPlayerId = null;
+    let polling = null;
+    let teamIdNameMap = {};
+
+    function renderAuctionData(data) {
+      // Logo (show if available)
+      if (data.tournImg) {
+        const logoDiv = document.getElementById('tournLogo');
+        const logoImg = document.getElementById('tournLogoImg');
+        logoImg.src = data.tournImg;
+        logoImg.style.display = '';
+        logoDiv.style.display = '';
+      } else {
+        document.getElementById('tournLogo').style.display = 'none';
+      }
+
+      // Player Name always present
+      document.getElementById('playerName').textContent =
+        data.playerName ? data.playerName : '';
+
+      // Age
+      if (typeof data.Age !== "undefined" && data.Age !== null && data.Age !== "") {
+        document.getElementById('playerAge').textContent = data.Age;
+        document.getElementById('ageRow').hidden = false;
+      } else {
+        document.getElementById('ageRow').hidden = true;
+      }
+      // Role
+      if (typeof data.Role !== "undefined" && data.Role !== null && data.Role !== "") {
+        document.getElementById('playerRole').textContent = data.Role;
+        document.getElementById('roleRow').hidden = false;
+      } else {
+        document.getElementById('roleRow').hidden = true;
+      }
+      // Available Dates
+      if (typeof data.AvailableDates !== "undefined" && data.AvailableDates !== null && data.AvailableDates.trim() !== "") {
+        document.getElementById('playerDates').textContent = data.AvailableDates;
+        document.getElementById('availableDatesRow').hidden = false;
+      } else {
+        document.getElementById('availableDatesRow').hidden = true;
+      }
+      // Base Price
+      document.getElementById('playerBasePrice').textContent =
+        (typeof data.basePrice !== "undefined" && data.basePrice !== null && data.basePrice !== "") ?
+          `Base Price: ₹${formatAmount(data.basePrice)}` : '';
+
+      // Center: player image
+      renderPlayerImage(data.playerImg);
+
+      // Center: current bid
+      document.getElementById('currentBid').textContent =
+        (typeof data.currentBid !== "undefined" && data.currentBid !== null && data.currentBid !== "") ?
+          `₹${formatAmount(data.currentBid)}` : '--';
+
+      // Bidder team name
+      let currentBidTeamName = '';
+      if (data.currentBidTeamId && teamIdNameMap[data.currentBidTeamId]) {
+        currentBidTeamName = teamIdNameMap[data.currentBidTeamId];
+      }
+      document.getElementById('currentBidder').textContent =
+        currentBidTeamName ? `Bidder: ${currentBidTeamName}` : '';
+
+      // Right: Teams Table
+      let tableRows = '';
+      if (data.wallets) {
+        teamIdNameMap = {};
+        data.wallets.forEach((t, i) => {
+          teamIdNameMap[t.teamId] = t.teamName;
+          let playerCountCell = (typeof t.playerCount !== "undefined" && t.playerCount !== null) 
+                                ? t.playerCount : '';
+          tableRows += `<tr>
+             <td>${t.teamName}</td>
+             <td>₹${formatAmount(t.remainingBalance)}</td>
+             <td>${playerCountCell}</td>
+          </tr>`;
+        });
+      }
+      document.getElementById('teamsTableBody').innerHTML = tableRows;
+    }
+
+    function formatAmount(amount) {
+      amount = Number(amount) || 0;
+      if (amount >= 10000000) return (amount / 10000000).toFixed(2) + ' Cr';
+      if (amount >= 100000) return (amount / 100000).toFixed(1) + ' Lac';
+      return amount.toLocaleString();
+    }
+
+    function renderPlayerImage(imgUrl) {
+      let el = document.getElementById('playerImage');
+      el.innerHTML = imgUrl
+        ? `<img src="${imgUrl}" alt="Player Photo" onerror="this.style.display='none'" />`
+        : `<div style="font-size:52px;color:#75a;">👤</div>`;
+    }
+
+    function checkAndAnimate(data) {
+      if (lastPlayerId !== null && data.playerId !== lastPlayerId) {
+        clearInterval(polling);
+        showAnimation(data.isSold, () => {
+          lastPlayerId = data.playerId;
+          renderAuctionData(data);
+          polling = setInterval(fetchAndUpdate, 2000);
+        });
+      } else {
+        lastPlayerId = data.playerId;
+        renderAuctionData(data);
+      }
+    }
+
+    function showAnimation(isSold, onComplete) {
+      const overlay = document.getElementById('animationOverlay');
+      const text = document.getElementById('animationText');
+      const info = document.getElementById('animationPlayerInfo');
+      if (isSold) {
+        text.textContent = 'SOLD!';
+        text.className = 'sold-text';
+        info.innerHTML = "<div style='font-size:1.38rem'>Congratulations!</div>";
+      } else {
+        text.textContent = 'UNSOLD';
+        text.className = 'unsold-text';
+        info.innerHTML = "<div style='font-size:1.38rem'>Better luck next time!</div>";
+      }
+      overlay.style.display = 'flex';
+      setTimeout(() => {
+        overlay.style.display = 'none';
+        if (onComplete) onComplete();
+      }, 2000);
+    }
+
+    async function fetchAndUpdate() {
+      try {
+        const response = await fetch(apiUrl, {method: 'GET', headers: {'accept': 'application/json'} });
+        if (response.ok) {
+          let result = await response.json();
+          let data = result.data || result; // handle both nesting or flat
+          checkAndAnimate(data);
         }
-        document.addEventListener('DOMContentLoaded', () => {
-            window.auctionUI = new AuctionUI();
-        });
-        window.addEventListener('beforeunload', () => {
-            if (window.auctionUI) {
-                window.auctionUI.destroy();
-            }
-        });
-    </script>
+      } catch (err) {
+        // Optionally handle error
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      apiUrl = `https://sportsdecor.somee.com/api/Auction/state/${getTournamentIdFromParams()}`;
+      polling = setInterval(fetchAndUpdate, 5000);
+      fetchAndUpdate();
+    });
+  </script>
 </body>
 </html>
