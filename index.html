@@ -289,11 +289,9 @@
         </div>
     </div>
     <script>
-        // Keep the entire JavaScript as is, no changes needed
         class AuctionUI {
             constructor() {
                 this.tournamentId = this.getTournamentIdFromParams();
-                this.videoUrl = this.getVideoUrlFromParams();
                 this.apiUrl = `https://sportsdecor.somee.com/api/Auction/state/${this.tournamentId}`;
                 this.lastPlayerId = null;
                 this.pollInterval = null;
@@ -306,16 +304,8 @@
                 const urlParams = new URLSearchParams(window.location.search);
                 return urlParams.get('tournamentId') || '59';
             }
-            getVideoUrlFromParams() {
-                const urlParams = new URLSearchParams(window.location.search);
-                const target = urlParams.get('target');
-                if (target) {
-                    return decodeURIComponent(target);
-                }
-                return 'https://www.youtube.com/embed/rOUuGvJkBrQ?autoplay=1&mute=1&loop=1&playlist=rOUuGvJkBrQ&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1';
-            }
             init() {
-                // Removed setupVideo call since video is removed
+                // Video removed, so no video setup
                 this.startPolling();
             }
             startPolling() {
