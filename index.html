@@ -5,9 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Auction UI Responsive</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       background: #f7feff;
       min-height: 100vh;
     }
@@ -155,6 +157,7 @@
       color: #228aa1;
       border-bottom: 1px solid #b0dad5;
     }
+    
     /* Animation Overlay */
     .animation-overlay {
       position: fixed;
@@ -192,16 +195,162 @@
       margin-bottom: 22px;
       text-transform: uppercase;
     }
+    
+    /* Compact Responsive Profile Overlay */
+    .profile-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.9);
+      display: none;
+      z-index: 1002;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    .profile-modal {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 20px;
+      padding: 30px;
+      width: 90vw;
+      max-width: 600px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      animation: slideUp 0.6s ease;
+    }
+    
+    .profile-close {
+      position: absolute;
+      top: 15px; right: 20px;
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      font-size: 24px;
+      width: 35px; height: 35px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .profile-header {
+      text-align: center;
+      margin-bottom: 25px;
+      color: white;
+    }
+    
+    .profile-name {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .profile-image {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      border: 4px solid white;
+      margin: 0 auto 20px;
+      object-fit: cover;
+      display: block;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+    
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    
+    .profile-card {
+      background: rgba(255,255,255,0.15);
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .profile-card-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      color: #f0f0f0;
+    }
+    
+    .profile-card-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: white;
+      word-wrap: break-word;
+    }
+    
+    .profile-highlight {
+      background: rgba(72,187,120,0.3);
+      border: 2px solid #48bb78;
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    .profile-highlight-label {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      color: #f0f0f0;
+      font-weight: 600;
+    }
+    
+    .profile-highlight-value {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #48bb78;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    .profile-status {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #ffd700;
+      margin-top: 10px;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes slideUp {
+      from { 
+        transform: translate(-50%, -50%) translateY(50px);
+        opacity: 0;
+      }
+      to { 
+        transform: translate(-50%, -50%) translateY(0);
+        opacity: 1;
+      }
+    }
+    
     @keyframes soldBounce {
       0% { transform: scale(0.8) rotate(0deg); opacity: 0; }
       50% { transform: scale(1.1) rotate(6deg); opacity: 1; }
       100% { transform: scale(1) rotate(0deg); opacity: 1; }
     }
+    
+    /* Responsive Design */
     @media (max-width: 1200px) {
       .auction-container { grid-template-columns: 1fr 1.8fr 1fr;}
       .teams-table-card { margin-right: 3vw;}
       .player-details-card { margin-left: 15px;}
     }
+    
     @media (max-width: 950px) {
       .auction-container { grid-template-columns: 1fr; }
       .player-details-card, .teams-table-card { margin: 27px auto; min-width: 200px;}
@@ -209,17 +358,42 @@
       .teams-table-card, .player-details-card { width: 94vw; }
       .teams-table-card table { width: 99%; }
       .tournament-logo { left: 16vw; top: 18px;}
+      
+      .profile-modal {
+        width: 95vw;
+        padding: 25px;
+        max-height: 90vh;
+      }
+      .profile-name { font-size: 1.8rem; }
+      .profile-grid { grid-template-columns: 1fr; }
     }
+    
     @media (max-width: 670px) {
       .player-details-card, .teams-table-card { padding: 14px 3vw;}
       .center-bid-section { padding-bottom: 9px; }
       .tournament-logo { width: 60px; height: 60px; left: 9vw;}
       .tournament-logo img { width: 50px; height: 50px;}
+      
+      .profile-modal {
+        padding: 20px;
+        width: 98vw;
+      }
+      .profile-name { font-size: 1.6rem; }
+      .profile-image { width: 100px; height: 100px; }
+      .profile-card-value { font-size: 1.2rem; }
+      .profile-highlight-value { font-size: 1.8rem; }
+      .sold-text, .unsold-text { font-size: 3rem; }
     }
+    
     @media (max-width: 400px) {
       .player-details-card, .teams-table-card { padding: 9px 4vw; }
       .tournament-logo { width: 36px; height: 36px;}
       .tournament-logo img { width: 30px; height: 30px;}
+      
+      .profile-modal { padding: 15px; }
+      .profile-name { font-size: 1.4rem; }
+      .profile-image { width: 80px; height: 80px; }
+      .sold-text, .unsold-text { font-size: 2.5rem; }
     }
   </style>
 </head>
@@ -265,6 +439,42 @@
         <div class="player-info" id="animationPlayerInfo"></div>
       </div>
     </div>
+    
+    <!-- Compact Profile Overlay -->
+    <div class="profile-overlay" id="profileOverlay">
+      <div class="profile-modal">
+        <button class="profile-close" id="profileClose">×</button>
+        <div class="profile-header">
+          <div class="profile-name" id="profilePlayerName"></div>
+          <img id="profilePlayerImage" src="" alt="Player" class="profile-image" />
+        </div>
+        
+        <div class="profile-grid">
+          <div class="profile-card">
+            <div class="profile-card-label">Age</div>
+            <div class="profile-card-value" id="profileAge"></div>
+          </div>
+          <div class="profile-card">
+            <div class="profile-card-label">Role</div>
+            <div class="profile-card-value" id="profileRole"></div>
+          </div>
+          <div class="profile-card">
+            <div class="profile-card-label">Native Place</div>
+            <div class="profile-card-value" id="profileNativePlace"></div>
+          </div>
+          <div class="profile-card">
+            <div class="profile-card-label">Available Dates</div>
+            <div class="profile-card-value" id="profileAvailableDates"></div>
+          </div>
+        </div>
+        
+        <div class="profile-highlight">
+          <div class="profile-highlight-label">Base Price</div>
+          <div class="profile-highlight-value" id="profileBasePrice"></div>
+          <div class="profile-status" id="profileStatus">🎯 Ready for Auction!</div>
+        </div>
+      </div>
+    </div>
   </div>
   <script>
     // Get tournamentId dynamically
@@ -272,14 +482,18 @@
       const params = new URLSearchParams(window.location.search);
       return params.get('tournamentId') || '59';
     }
-
     let apiUrl = `https://sportsdecor.somee.com/api/Auction/state/${getTournamentIdFromParams()}`;
     let lastPlayerId = null;
     let polling = null;
     let teamIdNameMap = {};
-
+    let currentPlayerData = {};
+    let isAnimating = false;
+    let oldPlayerData = {};
+    
     function renderAuctionData(data) {
-      // Logo (show if available)
+      currentPlayerData = data;
+      
+      // Logo
       if (data.tournImg) {
         const logoDiv = document.getElementById('tournLogo');
         const logoImg = document.getElementById('tournLogoImg');
@@ -289,45 +503,45 @@
       } else {
         document.getElementById('tournLogo').style.display = 'none';
       }
-
-      // Player Name always present
-      document.getElementById('playerName').textContent =
-        data.playerName ? data.playerName : '';
-
+      
+      // Player Name
+      document.getElementById('playerName').textContent = data.playerName || '';
+      
       // Age
-      if (typeof data.Age !== "undefined" && data.Age !== null && data.Age !== "") {
+      if (data.Age && data.Age !== null && data.Age !== "") {
         document.getElementById('playerAge').textContent = data.Age;
         document.getElementById('ageRow').hidden = false;
       } else {
         document.getElementById('ageRow').hidden = true;
       }
+      
       // Role
-      if (typeof data.Role !== "undefined" && data.Role !== null && data.Role !== "") {
+      if (data.Role && data.Role !== null && data.Role !== "") {
         document.getElementById('playerRole').textContent = data.Role;
         document.getElementById('roleRow').hidden = false;
       } else {
         document.getElementById('roleRow').hidden = true;
       }
+      
       // Available Dates
-      if (typeof data.AvailableDates !== "undefined" && data.AvailableDates !== null && data.AvailableDates.trim() !== "") {
+      if (data.AvailableDates && data.AvailableDates.trim() !== "") {
         document.getElementById('playerDates').textContent = data.AvailableDates;
         document.getElementById('availableDatesRow').hidden = false;
       } else {
         document.getElementById('availableDatesRow').hidden = true;
       }
+      
       // Base Price
       document.getElementById('playerBasePrice').textContent =
-        (typeof data.basePrice !== "undefined" && data.basePrice !== null && data.basePrice !== "") ?
-          `Base Price: ₹${formatAmount(data.basePrice)}` : '';
-
-      // Center: player image
+        data.basePrice ? `Base Price: ₹${formatAmount(data.basePrice)}` : '';
+      
+      // Player image
       renderPlayerImage(data.playerImg);
-
-      // Center: current bid
+      
+      // Current bid
       document.getElementById('currentBid').textContent =
-        (typeof data.currentBid !== "undefined" && data.currentBid !== null && data.currentBid !== "") ?
-          `₹${formatAmount(data.currentBid)}` : '--';
-
+        data.currentBid ? `₹${formatAmount(data.currentBid)}` : '--';
+      
       // Bidder team name
       let currentBidTeamName = '';
       if (data.currentBidTeamId && teamIdNameMap[data.currentBidTeamId]) {
@@ -335,15 +549,14 @@
       }
       document.getElementById('currentBidder').textContent =
         currentBidTeamName ? `Bidder: ${currentBidTeamName}` : '';
-
-      // Right: Teams Table
+      
+      // Teams Table
       let tableRows = '';
       if (data.wallets) {
         teamIdNameMap = {};
         data.wallets.forEach((t, i) => {
           teamIdNameMap[t.teamId] = t.teamName;
-          let playerCountCell = (typeof t.playerCount !== "undefined" && t.playerCount !== null) 
-                                ? t.playerCount : '';
+          let playerCountCell = t.playerCount !== undefined ? t.playerCount : '';
           tableRows += `<tr>
              <td>${t.teamName}</td>
              <td>₹${formatAmount(t.remainingBalance)}</td>
@@ -353,39 +566,124 @@
       }
       document.getElementById('teamsTableBody').innerHTML = tableRows;
     }
-
+    
+    function renderProfileScreen(data) {
+      console.log('Rendering profile for:', data.playerName);
+      
+      // Player Name
+      document.getElementById('profilePlayerName').textContent = data.playerName || 'Unknown Player';
+      
+      // Player Image
+      const profileImg = document.getElementById('profilePlayerImage');
+      if (data.playerImg) {
+        profileImg.src = data.playerImg;
+        profileImg.style.display = '';
+        profileImg.onerror = function() {
+          this.style.display = 'none';
+        };
+      } else {
+        profileImg.style.display = 'none';
+      }
+      
+      // Age
+      document.getElementById('profileAge').textContent = data.Age || 'N/A';
+      
+      // Role
+      document.getElementById('profileRole').textContent = data.Role || 'N/A';
+      
+      // Native Place
+      document.getElementById('profileNativePlace').textContent = data.nativePlace || 'N/A';
+      
+      // Available Dates
+      document.getElementById('profileAvailableDates').textContent = 
+        (data.AvailableDates && data.AvailableDates.trim()) ? data.AvailableDates : 'N/A';
+      
+      // Base Price
+      document.getElementById('profileBasePrice').textContent = 
+        data.basePrice ? `₹${formatAmount(data.basePrice)}` : '₹0';
+    }
+    
     function formatAmount(amount) {
       amount = Number(amount) || 0;
       if (amount >= 10000000) return (amount / 10000000).toFixed(2) + ' Cr';
       if (amount >= 100000) return (amount / 100000).toFixed(1) + ' Lac';
       return amount.toLocaleString();
     }
-
+    
     function renderPlayerImage(imgUrl) {
       let el = document.getElementById('playerImage');
       el.innerHTML = imgUrl
         ? `<img src="${imgUrl}" alt="Player Photo" onerror="this.style.display='none'" />`
         : `<div style="font-size:52px;color:#75a;">👤</div>`;
     }
-
+    
+    async function fetchLatestPlayerData() {
+      try {
+        console.log('Fetching latest player data for profile...');
+        const response = await fetch(apiUrl, {method: 'GET', headers: {'accept': 'application/json'} });
+        if (response.ok) {
+          let result = await response.json();
+          let data = result.data || result;
+          console.log('Fresh data received:', data.playerName);
+          return data;
+        }
+      } catch (err) {
+        console.error('Error fetching latest data:', err);
+        return null;
+      }
+    }
+    
     function checkAndAnimate(data) {
-      if (lastPlayerId !== null && data.playerId !== lastPlayerId) {
+      if (lastPlayerId !== null && data.playerId !== lastPlayerId && !isAnimating) {
+        console.log('Player changed from', lastPlayerId, 'to', data.playerId);
+        isAnimating = true;
         clearInterval(polling);
-        showAnimation(data.isSold, () => {
-          lastPlayerId = data.playerId;
-          renderAuctionData(data);
-          polling = setInterval(fetchAndUpdate, 2000);
+        
+        // Store old player data for animation
+        oldPlayerData = { ...currentPlayerData };
+        
+        // Determine if sold
+        const wasSold = oldPlayerData.currentBidTeamId && 
+                       oldPlayerData.currentBid && 
+                       Number(oldPlayerData.currentBid) > 0;
+        
+        console.log('Old player was sold:', wasSold);
+        
+        // Show SOLD/UNSOLD animation
+        showAnimation(wasSold, async () => {
+          console.log('Animation complete, fetching fresh data for profile...');
+          
+          // Fetch fresh data for profile
+          const freshData = await fetchLatestPlayerData();
+          if (freshData) {
+            showProfileScreen(freshData, () => {
+              console.log('Profile complete, showing auction view...');
+              lastPlayerId = data.playerId;
+              renderAuctionData(freshData);
+              isAnimating = false;
+              polling = setInterval(fetchAndUpdate, 2000);
+            });
+          } else {
+            // Fallback to current data if fetch fails
+            showProfileScreen(data, () => {
+              lastPlayerId = data.playerId;
+              renderAuctionData(data);
+              isAnimating = false;
+              polling = setInterval(fetchAndUpdate, 2000);
+            });
+          }
         });
-      } else {
+      } else if (!isAnimating) {
         lastPlayerId = data.playerId;
         renderAuctionData(data);
       }
     }
-
+    
     function showAnimation(isSold, onComplete) {
       const overlay = document.getElementById('animationOverlay');
       const text = document.getElementById('animationText');
       const info = document.getElementById('animationPlayerInfo');
+      
       if (isSold) {
         text.textContent = 'SOLD!';
         text.className = 'sold-text';
@@ -395,29 +693,56 @@
         text.className = 'unsold-text';
         info.innerHTML = "<div style='font-size:1.38rem'>Better luck next time!</div>";
       }
+      
       overlay.style.display = 'flex';
+      
       setTimeout(() => {
         overlay.style.display = 'none';
         if (onComplete) onComplete();
-      }, 2000);
+      }, 2500);
     }
-
+    
+    function showProfileScreen(data, onComplete) {
+      const profileOverlay = document.getElementById('profileOverlay');
+      
+      // Render profile with fresh data
+      renderProfileScreen(data);
+      
+      // Show overlay
+      profileOverlay.style.display = 'block';
+      
+      setTimeout(() => {
+        profileOverlay.style.display = 'none';
+        if (onComplete) onComplete();
+      }, 4000);
+    }
+    
     async function fetchAndUpdate() {
+      if (isAnimating) {
+        console.log('Animation in progress, skipping fetch...');
+        return;
+      }
+      
       try {
         const response = await fetch(apiUrl, {method: 'GET', headers: {'accept': 'application/json'} });
         if (response.ok) {
           let result = await response.json();
-          let data = result.data || result; // handle both nesting or flat
+          let data = result.data || result;
           checkAndAnimate(data);
         }
       } catch (err) {
-        // Optionally handle error
+        console.error('Fetch error:', err);
       }
     }
-
+    
+    // Close profile manually
+    document.getElementById('profileClose').addEventListener('click', () => {
+      document.getElementById('profileOverlay').style.display = 'none';
+    });
+    
     document.addEventListener('DOMContentLoaded', function () {
       apiUrl = `https://sportsdecor.somee.com/api/Auction/state/${getTournamentIdFromParams()}`;
-      polling = setInterval(fetchAndUpdate, 5000);
+      polling = setInterval(fetchAndUpdate, 3000);
       fetchAndUpdate();
     });
   </script>
