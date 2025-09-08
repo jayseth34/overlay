@@ -22,25 +22,28 @@
       height: 100vh;
       position: relative;
     }
-    /* Big sticky logo */
+    /* Tournament logo - centered and bigger */
     .tournament-logo {
       position: fixed;
-      top: 25px;
-      left: 24px;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 20;
-      width: 108px;
-      height: 108px;
+      width: 150px;
+      height: 150px;
       background: #f3fff0;
-      border-radius: 17px;
-      box-shadow: 0 6px 18px #23dca928;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px #23dca928;
       display: flex;
       align-items: center;
       justify-content: center;
       border: 4px solid #c9fff0;
     }
     .tournament-logo img {
-      width: 90px; height: 90px; object-fit: contain;
-      border-radius: 14px;
+      width: 130px; 
+      height: 130px; 
+      object-fit: contain;
+      border-radius: 16px;
       display: block;
     }
     .player-details-card {
@@ -196,146 +199,213 @@
       text-transform: uppercase;
     }
     
-    /* Compact Responsive Profile Overlay */
+    /* Profile Overlay - Inspired by the reference image */
     .profile-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.9);
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
       display: none;
       z-index: 1002;
       animation: fadeIn 0.5s ease;
+      color: white;
     }
     
-    .profile-modal {
+    /* Header banner with single centered logo */
+    .profile-header-banner {
+      background: linear-gradient(90deg, #ff6b6b 0%, #ee5a24 30%, #ff6b6b 100%);
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    
+    .profile-header-banner::before,
+    .profile-header-banner::after {
+      content: '';
       position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border-radius: 20px;
-      padding: 30px;
-      width: 90vw;
-      max-width: 600px;
-      max-height: 85vh;
-      overflow-y: auto;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-      animation: slideUp 0.6s ease;
+      top: 0;
+      width: 0;
+      height: 0;
+      border-style: solid;
+    }
+    
+    .profile-header-banner::before {
+      left: 0;
+      border-width: 120px 0 0 80px;
+      border-color: transparent transparent transparent #feca57;
+    }
+    
+    .profile-header-banner::after {
+      right: 0;
+      border-width: 0 80px 120px 0;
+      border-color: transparent #feca57 transparent transparent;
+    }
+    
+    .profile-tournament-logo {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.1);
+      padding: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
     
     .profile-close {
       position: absolute;
-      top: 15px; right: 20px;
+      top: 20px; right: 30px;
       background: rgba(255,255,255,0.2);
       border: none;
       color: white;
-      font-size: 24px;
-      width: 35px; height: 35px;
+      font-size: 28px;
+      width: 40px; height: 40px;
       border-radius: 50%;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 10;
     }
     
-    .profile-header {
+    .profile-content {
+      display: flex;
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 30px;
+      gap: 40px;
+      align-items: flex-start;
+    }
+    
+    /* Left side - Player image and basic info */
+    .profile-left {
+      flex: 0 0 300px;
       text-align: center;
-      margin-bottom: 25px;
-      color: white;
     }
     
-    .profile-name {
-      font-size: 2.2rem;
-      font-weight: 800;
-      margin-bottom: 10px;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    }
-    
-    .profile-image {
-      width: 120px; height: 120px;
-      border-radius: 50%;
-      border: 4px solid white;
-      margin: 0 auto 20px;
+    .profile-player-image {
+      width: 280px;
+      height: 350px;
       object-fit: cover;
-      display: block;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      border-radius: 20px;
+      border: 4px solid #ff6b6b;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      margin-bottom: 20px;
     }
     
-    .profile-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 15px;
-      margin-bottom: 25px;
+    .profile-player-name {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #ff6b6b;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     }
     
-    .profile-card {
-      background: rgba(255,255,255,0.15);
+    .profile-player-number {
+      background: #ff6b6b;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+      padding: 10px 20px;
+      border-radius: 10px;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+    
+    .profile-base-price {
+      background: #feca57;
+      color: #1a1a2e;
+      font-size: 1.8rem;
+      font-weight: 800;
+      padding: 15px 25px;
       border-radius: 15px;
-      padding: 20px;
-      text-align: center;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.2);
+      margin-top: 10px;
     }
     
-    .profile-card-label {
-      font-size: 0.9rem;
-      opacity: 0.8;
-      margin-bottom: 8px;
+    /* Right side - Details table */
+    .profile-right {
+      flex: 1;
+    }
+    
+    .profile-details-table {
+      background: rgba(255,255,255,0.05);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      border: 2px solid rgba(255,107,107,0.3);
+    }
+    
+    .profile-table-row {
+      display: flex;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .profile-table-row:last-child {
+      border-bottom: none;
+    }
+    
+    .profile-table-row[hidden] {
+      display: none !important;
+    }
+    
+    .profile-table-label {
+      flex: 0 0 150px;
+      background: #ff6b6b;
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 20px 25px;
       text-transform: uppercase;
       letter-spacing: 1px;
-      font-weight: 600;
-      color: #f0f0f0;
     }
     
-    .profile-card-value {
-      font-size: 1.4rem;
-      font-weight: 700;
+    .profile-table-value {
+      flex: 1;
+      background: rgba(255,255,255,0.08);
       color: white;
+      font-size: 1.2rem;
+      font-weight: 600;
+      padding: 20px 25px;
       word-wrap: break-word;
     }
     
-    .profile-highlight {
-      background: rgba(72,187,120,0.3);
-      border: 2px solid #48bb78;
+    .profile-current-bidder {
+      margin-top: 30px;
+      text-align: center;
+      background: rgba(255,107,107,0.2);
+      border: 2px solid #ff6b6b;
       border-radius: 15px;
       padding: 20px;
-      text-align: center;
-      margin-top: 20px;
     }
     
-    .profile-highlight-label {
-      font-size: 1.1rem;
-      margin-bottom: 8px;
-      color: #f0f0f0;
-      font-weight: 600;
-    }
-    
-    .profile-highlight-value {
-      font-size: 2.2rem;
-      font-weight: 900;
-      color: #48bb78;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    }
-    
-    .profile-status {
+    .profile-current-bidder-title {
       font-size: 1.2rem;
-      font-weight: 600;
-      color: #ffd700;
-      margin-top: 10px;
+      color: #ff6b6b;
+      margin-bottom: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    
+    .profile-current-bidder-logo {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 15px;
+      border-radius: 15px;
+      object-fit: contain;
+      background: rgba(255,255,255,0.1);
+      padding: 10px;
+    }
+    
+    .profile-current-bidder-name {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: white;
     }
     
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
-    }
-    
-    @keyframes slideUp {
-      from { 
-        transform: translate(-50%, -50%) translateY(50px);
-        opacity: 0;
-      }
-      to { 
-        transform: translate(-50%, -50%) translateY(0);
-        opacity: 1;
-      }
     }
     
     @keyframes soldBounce {
@@ -349,6 +419,8 @@
       .auction-container { grid-template-columns: 1fr 1.8fr 1fr;}
       .teams-table-card { margin-right: 3vw;}
       .player-details-card { margin-left: 15px;}
+      .tournament-logo { width: 120px; height: 120px; }
+      .tournament-logo img { width: 100px; height: 100px; }
     }
     
     @media (max-width: 950px) {
@@ -357,43 +429,94 @@
       .center-bid-section { padding-bottom: 23px; }
       .teams-table-card, .player-details-card { width: 94vw; }
       .teams-table-card table { width: 99%; }
-      .tournament-logo { left: 16vw; top: 18px;}
+      .tournament-logo { width: 100px; height: 100px; }
+      .tournament-logo img { width: 80px; height: 80px; }
       
-      .profile-modal {
-        width: 95vw;
-        padding: 25px;
-        max-height: 90vh;
+      .profile-content {
+        flex-direction: column;
+        align-items: center;
+        padding: 0 20px;
       }
-      .profile-name { font-size: 1.8rem; }
-      .profile-grid { grid-template-columns: 1fr; }
+      .profile-left {
+        flex: none;
+      }
+      .profile-player-image {
+        width: 200px;
+        height: 250px;
+      }
+      .profile-table-label {
+        flex: 0 0 120px;
+        font-size: 0.9rem;
+        padding: 15px 20px;
+      }
+      .profile-table-value {
+        font-size: 1.1rem;
+        padding: 15px 20px;
+      }
+      .profile-tournament-logo {
+        width: 80px;
+        height: 80px;
+      }
+      .profile-header-banner {
+        height: 100px;
+      }
+      .profile-header-banner::before {
+        border-width: 100px 0 0 60px;
+      }
+      .profile-header-banner::after {
+        border-width: 0 60px 100px 0;
+      }
     }
     
     @media (max-width: 670px) {
       .player-details-card, .teams-table-card { padding: 14px 3vw;}
       .center-bid-section { padding-bottom: 9px; }
-      .tournament-logo { width: 60px; height: 60px; left: 9vw;}
-      .tournament-logo img { width: 50px; height: 50px;}
+      .tournament-logo { width: 80px; height: 80px; }
+      .tournament-logo img { width: 60px; height: 60px; }
       
-      .profile-modal {
-        padding: 20px;
-        width: 98vw;
+      .profile-tournament-logo { width: 70px; height: 70px; }
+      .profile-player-name { font-size: 2rem; }
+      .profile-player-image {
+        width: 180px;
+        height: 220px;
       }
-      .profile-name { font-size: 1.6rem; }
-      .profile-image { width: 100px; height: 100px; }
-      .profile-card-value { font-size: 1.2rem; }
-      .profile-highlight-value { font-size: 1.8rem; }
+      .profile-table-label {
+        flex: 0 0 100px;
+        font-size: 0.8rem;
+        padding: 12px 15px;
+      }
+      .profile-table-value {
+        font-size: 1rem;
+        padding: 12px 15px;
+      }
       .sold-text, .unsold-text { font-size: 3rem; }
+      .profile-header-banner {
+        height: 90px;
+      }
+      .profile-header-banner::before {
+        border-width: 90px 0 0 50px;
+      }
+      .profile-header-banner::after {
+        border-width: 0 50px 90px 0;
+      }
     }
     
     @media (max-width: 400px) {
       .player-details-card, .teams-table-card { padding: 9px 4vw; }
-      .tournament-logo { width: 36px; height: 36px;}
-      .tournament-logo img { width: 30px; height: 30px;}
-      
-      .profile-modal { padding: 15px; }
-      .profile-name { font-size: 1.4rem; }
-      .profile-image { width: 80px; height: 80px; }
+      .tournament-logo { width: 60px; height: 60px;}
+      .tournament-logo img { width: 45px; height: 45px;}
+      .profile-content { padding: 0 15px; }
+      .profile-tournament-logo { width: 60px; height: 60px; }
       .sold-text, .unsold-text { font-size: 2.5rem; }
+      .profile-header-banner {
+        height: 80px;
+      }
+      .profile-header-banner::before {
+        border-width: 80px 0 0 40px;
+      }
+      .profile-header-banner::after {
+        border-width: 0 40px 80px 0;
+      }
     }
   </style>
 </head>
@@ -440,38 +563,51 @@
       </div>
     </div>
     
-    <!-- Compact Profile Overlay -->
+    <!-- Profile Overlay -->
     <div class="profile-overlay" id="profileOverlay">
-      <div class="profile-modal">
-        <button class="profile-close" id="profileClose">×</button>
-        <div class="profile-header">
-          <div class="profile-name" id="profilePlayerName"></div>
-          <img id="profilePlayerImage" src="" alt="Player" class="profile-image" />
+      <button class="profile-close" id="profileClose">×</button>
+      
+      <div class="profile-header-banner">
+        <img id="profileTournamentLogo" src="" alt="Tournament Logo" class="profile-tournament-logo" />
+      </div>
+      
+      <div class="profile-content">
+        <div class="profile-left">
+          <img id="profilePlayerImage" src="" alt="Player" class="profile-player-image" />
+          <div class="profile-player-name" id="profilePlayerName"></div>
+          <div class="profile-player-number" id="profilePlayerNumber" style="display: none;">186</div>
+          <div class="profile-base-price" id="profileBasePrice">BID PRICE : 0 K</div>
         </div>
         
-        <div class="profile-grid">
-          <div class="profile-card">
-            <div class="profile-card-label">Age</div>
-            <div class="profile-card-value" id="profileAge"></div>
+        <div class="profile-right">
+          <div class="profile-details-table">
+            <div class="profile-table-row" id="profileAgeRow" hidden>
+              <div class="profile-table-label">Age</div>
+              <div class="profile-table-value" id="profileAge">N/A</div>
+            </div>
+            <div class="profile-table-row" id="profileRoleRow" hidden>
+              <div class="profile-table-label">Role</div>
+              <div class="profile-table-value" id="profileRole">N/A</div>
+            </div>
+            <div class="profile-table-row" id="profileNativePlaceRow" hidden>
+              <div class="profile-table-label">Native Place</div>
+              <div class="profile-table-value" id="profileNativePlace">N/A</div>
+            </div>
+            <div class="profile-table-row" id="profileAvailableDatesRow" hidden>
+              <div class="profile-table-label">Available Dates</div>
+              <div class="profile-table-value" id="profileAvailableDates">N/A</div>
+            </div>
+            <div class="profile-table-row">
+              <div class="profile-table-label">Base Price</div>
+              <div class="profile-table-value" id="profileBasePriceTable">0 K</div>
+            </div>
           </div>
-          <div class="profile-card">
-            <div class="profile-card-label">Role</div>
-            <div class="profile-card-value" id="profileRole"></div>
+          
+          <div class="profile-current-bidder" id="profileCurrentBidder" style="display: none;">
+            <div class="profile-current-bidder-title">Current Bidder</div>
+            <img id="profileCurrentBidderLogo" src="" alt="Team Logo" class="profile-current-bidder-logo" />
+            <div class="profile-current-bidder-name" id="profileCurrentBidderName"></div>
           </div>
-          <div class="profile-card">
-            <div class="profile-card-label">Native Place</div>
-            <div class="profile-card-value" id="profileNativePlace"></div>
-          </div>
-          <div class="profile-card">
-            <div class="profile-card-label">Available Dates</div>
-            <div class="profile-card-value" id="profileAvailableDates"></div>
-          </div>
-        </div>
-        
-        <div class="profile-highlight">
-          <div class="profile-highlight-label">Base Price</div>
-          <div class="profile-highlight-value" id="profileBasePrice"></div>
-          <div class="profile-status" id="profileStatus">🎯 Ready for Auction!</div>
         </div>
       </div>
     </div>
@@ -489,6 +625,7 @@
     let currentPlayerData = {};
     let isAnimating = false;
     let oldPlayerData = {};
+    let isFirstLoad = true;
     
     function renderAuctionData(data) {
       currentPlayerData = data;
@@ -570,6 +707,14 @@
     function renderProfileScreen(data) {
       console.log('Rendering profile for:', data.playerName);
       
+      // Tournament logo in header - single centered logo
+      if (data.tournImg) {
+        document.getElementById('profileTournamentLogo').src = data.tournImg;
+        document.getElementById('profileTournamentLogo').style.display = '';
+      } else {
+        document.getElementById('profileTournamentLogo').style.display = 'none';
+      }
+      
       // Player Name
       document.getElementById('profilePlayerName').textContent = data.playerName || 'Unknown Player';
       
@@ -579,34 +724,68 @@
         profileImg.src = data.playerImg;
         profileImg.style.display = '';
         profileImg.onerror = function() {
-          this.style.display = 'none';
+          this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjI1MCIgdmlld0JveD0iMCAwIDIwMCAyNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjUwIiBmaWxsPSIjZjNmNGY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTMwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOWNhM2FmIiBmb250LXNpemU9IjE2Ij5ObyBJbWFnZTwvdGV4dD4KPHN2Zz4K';
         };
       } else {
-        profileImg.style.display = 'none';
+        profileImg.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjI1MCIgdmlld0JveD0iMCAwIDIwMCAyNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjUwIiBmaWxsPSIjZjNmNGY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTMwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOWNhM2FmIiBmb250LXNpemU9IjE2Ij5ObyBJbWFnZTwvdGV4dD4KPHN2Zz4K';
       }
       
-      // Age
-      document.getElementById('profileAge').textContent = data.Age || 'N/A';
-      
-      // Role
-      document.getElementById('profileRole').textContent = data.Role || 'N/A';
-      
-      // Native Place
-      document.getElementById('profileNativePlace').textContent = data.nativePlace || 'N/A';
-      
-      // Available Dates
-      document.getElementById('profileAvailableDates').textContent = 
-        (data.AvailableDates && data.AvailableDates.trim()) ? data.AvailableDates : 'N/A';
-      
       // Base Price
-      document.getElementById('profileBasePrice').textContent = 
-        data.basePrice ? `₹${formatAmount(data.basePrice)}` : '₹0';
+      const basePrice = data.basePrice ? formatAmount(data.basePrice) : '0';
+      document.getElementById('profileBasePrice').textContent = `BID PRICE : ${basePrice}`;
+      document.getElementById('profileBasePriceTable').textContent = basePrice;
+      
+      // Age - only show if available
+      if (data.Age && data.Age !== null && data.Age !== "") {
+        document.getElementById('profileAge').textContent = data.Age;
+        document.getElementById('profileAgeRow').hidden = false;
+      } else {
+        document.getElementById('profileAgeRow').hidden = true;
+      }
+      
+      // Role - only show if available
+      if (data.Role && data.Role !== null && data.Role !== "") {
+        document.getElementById('profileRole').textContent = data.Role;
+        document.getElementById('profileRoleRow').hidden = false;
+      } else {
+        document.getElementById('profileRoleRow').hidden = true;
+      }
+      
+      // Native Place - only show if available
+      if (data.nativePlace && data.nativePlace.trim() !== "") {
+        document.getElementById('profileNativePlace').textContent = data.nativePlace;
+        document.getElementById('profileNativePlaceRow').hidden = false;
+      } else {
+        document.getElementById('profileNativePlaceRow').hidden = true;
+      }
+      
+      // Available Dates - only show if available
+      if (data.AvailableDates && data.AvailableDates.trim() !== "") {
+        document.getElementById('profileAvailableDates').textContent = data.AvailableDates;
+        document.getElementById('profileAvailableDatesRow').hidden = false;
+      } else {
+        document.getElementById('profileAvailableDatesRow').hidden = true;
+      }
+      
+      // Current Bidder
+      if (data.currentBidTeamId && teamIdNameMap[data.currentBidTeamId]) {
+        const currentBidderSection = document.getElementById('profileCurrentBidder');
+        const currentBidderName = document.getElementById('profileCurrentBidderName');
+        const currentBidderLogo = document.getElementById('profileCurrentBidderLogo');
+        
+        currentBidderName.textContent = teamIdNameMap[data.currentBidTeamId];
+        currentBidderLogo.src = data.currentBidderLogo || ''; // Add team logo URL if available
+        currentBidderSection.style.display = 'block';
+      } else {
+        document.getElementById('profileCurrentBidder').style.display = 'none';
+      }
     }
     
     function formatAmount(amount) {
       amount = Number(amount) || 0;
       if (amount >= 10000000) return (amount / 10000000).toFixed(2) + ' Cr';
       if (amount >= 100000) return (amount / 100000).toFixed(1) + ' Lac';
+      if (amount >= 1000) return (amount / 1000).toFixed(1) + ' K';
       return amount.toLocaleString();
     }
     
@@ -634,6 +813,23 @@
     }
     
     function checkAndAnimate(data) {
+      // Show profile for first player on initial load
+      if (isFirstLoad && data.playerId) {
+        console.log('First load - showing profile for initial player');
+        isFirstLoad = false;
+        isAnimating = true;
+        clearInterval(polling);
+        
+        showProfileScreen(data, () => {
+          console.log('Initial profile complete, showing auction view...');
+          lastPlayerId = data.playerId;
+          renderAuctionData(data);
+          isAnimating = false;
+          polling = setInterval(fetchAndUpdate, 2000);
+        });
+        return;
+      }
+      
       if (lastPlayerId !== null && data.playerId !== lastPlayerId && !isAnimating) {
         console.log('Player changed from', lastPlayerId, 'to', data.playerId);
         isAnimating = true;
@@ -714,7 +910,7 @@
       setTimeout(() => {
         profileOverlay.style.display = 'none';
         if (onComplete) onComplete();
-      }, 4000);
+      }, 5000); // 5 seconds for visibility
     }
     
     async function fetchAndUpdate() {
