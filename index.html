@@ -10,7 +10,7 @@
     body {
       margin: 0;
       font-family: 'Inter', Arial, sans-serif;
-      background: #e8f4fd;
+      background: linear-gradient(135deg, #B0E0E6 0%, #87CEEB 50%, #B0C4DE 100%);
       min-height: 100vh;
     }
     .auction-container {
@@ -31,13 +31,13 @@
       z-index: 20;
       width: 150px;
       height: 150px;
-      background: #f0f8ff;
+      background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
       border-radius: 20px;
-      box-shadow: 0 8px 25px #1e40af28;
+      box-shadow: 0 8px 25px #4169E128;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 4px solid #93c5fd;
+      border: 4px solid #4169E1;
     }
     .tournament-logo img {
       width: 130px; 
@@ -47,7 +47,7 @@
       display: block;
     }
     .player-details-card {
-      background: #1e3a8a;
+      background: linear-gradient(135deg, #191970 0%, #000080 100%);
       border-radius: 13px;
       margin: 80px 0 0 22px;
       padding: 28px 18px 25px 33px;
@@ -55,17 +55,48 @@
       font-size: 18px;
       min-width: 220px;
       min-height: 210px;
-      box-shadow: 0 6px 18px #3b82f622;
+      box-shadow: 0 6px 18px #4169E135;
       display: flex;
       flex-direction: column;
-      gap: 9px;
+      gap: 12px;
       align-items: flex-start;
+      border: 2px solid #4169E1;
     }
     .detail-row[hidden] { display: none !important; }
+    .detail-row {
+      width: 100%;
+      padding: 8px 12px;
+      background: rgba(65, 105, 225, 0.1);
+      border-radius: 8px;
+      border-left: 4px solid #4169E1;
+    }
     .detail-label {
       font-weight: bold;
       margin-right: 7px;
-      color: #93c5fd;
+      color: #87CEEB;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+    .player-name-row {
+      font-size: 20px;
+      font-weight: 800;
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      text-align: center;
+      background: rgba(65, 105, 225, 0.2);
+      padding: 12px;
+      border-radius: 10px;
+      border: 2px solid #4169E1;
+      margin-bottom: 8px;
+    }
+    .base-price-row {
+      font-size: 16px;
+      font-weight: 700;
+      color: #87CEEB;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+      background: rgba(30, 144, 255, 0.15);
+      padding: 10px 12px;
+      border-radius: 8px;
+      border-left: 4px solid #1E90FF;
     }
     .center-bid-section {
       display: flex;
@@ -76,16 +107,17 @@
       min-width: 240px;
     }
     .player-image-container {
-      border: 3px solid #2563eb;
+      border: 4px solid #4169E1;
       border-radius: 50%;
       width: 115px; height: 115px;
       overflow: hidden;
       margin-bottom: 10px;
       margin-top: 35px;
-      background: #f0f8ff;
+      background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 0 8px 20px #4169E130;
     }
     .player-image-container img {
       width: 100%;
@@ -94,25 +126,27 @@
       border-radius: 50%;
     }
     .current-bid-label {
-      background: #60a5fa;
-      color: #1e3a8a;
+      background: linear-gradient(135deg, #4169E1 0%, #1E90FF 100%);
+      color: white;
       padding: 8px 24px 8px 24px;
       border-radius: 11px 11px 0 0;
       font-weight: 600;
       margin-top: 16px;
       font-size: 15px;
       letter-spacing: 1.1px;
+      box-shadow: 0 4px 12px rgba(65, 105, 225, 0.3);
     }
     .current-bid-value {
       background: #fff;
-      color: #1d4ed8;
+      color: #191970;
       padding: 10px 32px 13px 32px;
       border-radius: 0 0 13px 13px;
       font-size: 23px;
       font-weight: bold;
       margin-bottom: 8px;
-      box-shadow: 0 2px 7px #3b82f620;
+      box-shadow: 0 4px 12px rgba(65, 105, 225, 0.2);
       letter-spacing: 1.4px;
+      border: 2px solid #4169E1;
     }
     .current-bidder {
       margin-top: 11px;
@@ -120,26 +154,29 @@
       font-size: 18px;
       font-weight: 600;
       letter-spacing: 1.18px;
-      background: #1e3a8ae7;
+      background: linear-gradient(135deg, #191970 0%, #000080 100%);
       border-radius: 6px;
-      padding: 5px 14px;
+      padding: 8px 16px;
       min-height: 36px;
       display: flex;
       align-items: center;
       justify-content: center;
+      border: 2px solid #4169E1;
+      box-shadow: 0 4px 12px rgba(65, 105, 225, 0.3);
     }
     .teams-table-card {
-      background: #1e3a8a;
+      background: linear-gradient(135deg, #191970 0%, #000080 100%);
       border-radius: 14px;
       margin: 80px 28px 0 0;
       padding: 21px 0 17px 0;
       color: white;
       min-width: 225px;
       min-height: 205px;
-      box-shadow: 0 6px 18px #3b82f622;
+      box-shadow: 0 6px 18px #4169E135;
       display: flex;
       flex-direction: column;
       align-items: center;
+      border: 2px solid #4169E1;
     }
     .teams-table-card table {
       width: 98%;
@@ -153,21 +190,22 @@
       color: white;
     }
     .teams-table-card th {
-      color: #93c5fd;
+      color: #87CEEB;
       font-weight: 700;
       text-transform: uppercase;
-      border-bottom: 2px solid #2563eb;
+      border-bottom: 2px solid #4169E1;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
     }
     .teams-table-card td {
       color: white;
-      border-bottom: 1px solid #93c5fd;
+      border-bottom: 1px solid #4169E1;
     }
     
     /* Animation Overlay */
     .animation-overlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.68);
+      background: rgba(25, 25, 112, 0.85);
       display: none;
       justify-content: center;
       align-items: center;
@@ -178,17 +216,17 @@
       text-align: center;
       color: white;
       animation: soldBounce 2s;
-      background: rgba(30, 58, 138, 0.95);
+      background: linear-gradient(135deg, #191970 0%, #000080 100%);
       padding: 45px 65px 38px 65px;
       border-radius: 23px;
-      border: 4px solid #60a5fa;
-      box-shadow: 0 11px 24px #60a5fa22;
+      border: 4px solid #4169E1;
+      box-shadow: 0 11px 24px #4169E155;
     }
     .sold-text {
       font-size: 4.2rem;
       font-weight: bold;
-      color: #60a5fa;
-      text-shadow: 0 0 28px #60a5fa;
+      color: #4169E1;
+      text-shadow: 0 0 28px #4169E1;
       margin-bottom: 22px;
       text-transform: uppercase;
     }
@@ -201,20 +239,20 @@
       text-transform: uppercase;
     }
     
-    /* Profile Overlay with blue theme */
+    /* Profile Overlay with royal blue theme */
     .profile-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%);
+      background: linear-gradient(135deg, #191970 0%, #000080 50%, #00008B 100%);
       display: none;
       z-index: 1002;
       animation: fadeIn 0.5s ease;
       color: white;
     }
     
-    /* Header banner with blue theme */
+    /* Header banner with royal blue theme */
     .profile-header-banner {
-      background: linear-gradient(90deg, #3b82f6 0%, #2563eb 30%, #1d4ed8 100%);
+      background: linear-gradient(90deg, #4169E1 0%, #1E90FF 30%, #6495ED 100%);
       height: 120px;
       display: flex;
       align-items: center;
@@ -236,13 +274,13 @@
     .profile-header-banner::before {
       left: 0;
       border-width: 120px 0 0 80px;
-      border-color: transparent transparent transparent #60a5fa;
+      border-color: transparent transparent transparent #87CEEB;
     }
     
     .profile-header-banner::after {
       right: 0;
       border-width: 0 80px 120px 0;
-      border-color: transparent #60a5fa transparent transparent;
+      border-color: transparent #87CEEB transparent transparent;
     }
     
     .profile-tournament-logo {
@@ -291,7 +329,7 @@
       height: 350px;
       object-fit: cover;
       border-radius: 20px;
-      border: 4px solid #60a5fa;
+      border: 4px solid #4169E1;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       margin-bottom: 20px;
     }
@@ -299,13 +337,13 @@
     .profile-player-name {
       font-size: 2.5rem;
       font-weight: 800;
-      color: #60a5fa;
+      color: #fff;
       margin-bottom: 10px;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     }
     
     .profile-player-number {
-      background: #60a5fa;
+      background: #4169E1;
       color: white;
       font-size: 1.5rem;
       font-weight: bold;
@@ -316,13 +354,13 @@
     }
     
     .profile-base-price {
-      background: #93c5fd;
-      color: #1e3a8a;
+      color: #fff;
       font-size: 1.8rem;
       font-weight: 800;
       padding: 15px 25px;
       border-radius: 15px;
       margin-top: 10px;
+      box-shadow: 0 4px 12px rgba(65, 105, 225, 0.3);
     }
     
     /* Right side - Details table */
@@ -335,7 +373,7 @@
       border-radius: 20px;
       overflow: hidden;
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      border: 2px solid rgba(96,165,250,0.3);
+      border: 2px solid rgba(65, 105, 225, 0.3);
     }
     
     .profile-table-row {
@@ -353,7 +391,7 @@
     
     .profile-table-label {
       flex: 0 0 150px;
-      background: #3b82f6;
+      background: linear-gradient(135deg, #4169E1 0%, #1E90FF 100%);
       color: white;
       font-weight: 700;
       font-size: 1rem;
@@ -375,15 +413,15 @@
     .profile-current-bidder {
       margin-top: 30px;
       text-align: center;
-      background: rgba(96,165,250,0.2);
-      border: 2px solid #60a5fa;
+      background: rgba(65, 105, 225, 0.2);
+      border: 2px solid #4169E1;
       border-radius: 15px;
       padding: 20px;
     }
     
     .profile-current-bidder-title {
       font-size: 1.2rem;
-      color: #60a5fa;
+      color: #87CEEB;
       margin-bottom: 10px;
       font-weight: 700;
       text-transform: uppercase;
@@ -529,7 +567,7 @@
   <div class="auction-container">
     <!-- Left: Player Info Card -->
     <div class="player-details-card">
-      <div id="playerName" class="detail-row"></div>
+      <div id="playerName" class="player-name-row"></div>
       <div id="ageRow" class="detail-row" hidden>
         <span class="detail-label">Age:</span> <span id="playerAge"></span>
       </div>
@@ -542,7 +580,7 @@
       <div id="availableDatesRow" class="detail-row" hidden>
         <span class="detail-label">Available Dates:</span> <span id="playerDates"></span>
       </div>
-      <div id="playerBasePrice" class="detail-row"></div>
+      <div id="playerBasePrice" class="base-price-row"></div>
     </div>
     <!-- Center: Image & Bid -->
     <div class="center-bid-section">
@@ -604,7 +642,7 @@
             </div>
             <div class="profile-table-row">
               <div class="profile-table-label">Base Price</div>
-              <div class="profile-table-value" id="profileBasePriceTable">0 K</div>
+              <div class="profile-table-value" id="profileBasePriceTable" style="color: #ffff;">0 K</div>
             </div>
           </div>
           
@@ -646,7 +684,7 @@
         document.getElementById('tournLogo').style.display = 'none';
       }
       
-      // Player Name
+      // Player Name - now with special styling
       document.getElementById('playerName').textContent = data.playerName || '';
       
       // Age
@@ -681,7 +719,7 @@
         document.getElementById('availableDatesRow').hidden = true;
       }
       
-      // Base Price
+      // Base Price - now with special styling
       document.getElementById('playerBasePrice').textContent =
         data.basePrice ? `Base Price: ₹${formatAmount(data.basePrice)}` : '';
       
