@@ -12,183 +12,207 @@
       font-family: 'Inter', Arial, sans-serif;
       background: linear-gradient(135deg, #B0E0E6 0%, #87CEEB 50%, #B0C4DE 100%);
       min-height: 100vh;
+      overflow-x: hidden;
     }
+    
     .auction-container {
       display: grid;
-      grid-template-columns: 330px 1fr 330px;
-      grid-gap: 12px;
+      grid-template-columns: 1fr 1.2fr 1fr;
+      grid-gap: 15px;
       align-items: end;
       width: 100vw;
       height: 100vh;
       position: relative;
+      padding: 0 10px;
+      box-sizing: border-box;
     }
-    /* Tournament logo - centered and bigger */
+    
+    /* Tournament logo - HUGE, no container constraints */
     .tournament-logo {
       position: fixed;
-      top: 20px;
+      top: 5px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 20;
-      width: 150px;
-      height: 150px;
-      background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
-      border-radius: 20px;
-      box-shadow: 0 8px 25px #4169E128;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 4px solid #4169E1;
     }
+    
     .tournament-logo img {
-      width: 130px; 
-      height: 130px; 
-      object-fit: contain;
-      border-radius: 16px;
+      width: 600px; 
+      height: 300px; 
+      object-fit: cover;
       display: block;
     }
+    
+    /* Player details card - TALLER to fit all content */
     .player-details-card {
       background: linear-gradient(135deg, #191970 0%, #000080 100%);
-      border-radius: 13px;
-      margin: 80px 0 0 22px;
-      padding: 28px 18px 25px 33px;
+      border-radius: 12px;
+      margin: 180px 0 0 15px;
+      padding: 25px 20px 25px 25px;
       color: white;
-      font-size: 18px;
-      min-width: 220px;
-      min-height: 210px;
-      box-shadow: 0 6px 18px #4169E135;
+      font-size: 16px;
+      min-width: 200px;
+      min-height: 350px;
+      max-height: none;
+      box-shadow: 0 8px 25px #4169E135;
       display: flex;
       flex-direction: column;
       gap: 12px;
       align-items: flex-start;
       border: 2px solid #4169E1;
     }
+    
     .detail-row[hidden] { display: none !important; }
+    
     .detail-row {
       width: 100%;
-      padding: 8px 12px;
+      padding: 12px 15px;
       background: rgba(65, 105, 225, 0.1);
       border-radius: 8px;
-      border-left: 4px solid #4169E1;
+      border-left: 3px solid #4169E1;
+      min-height: 40px;
+      display: flex;
+      align-items: center;
     }
+    
     .detail-label {
       font-weight: bold;
-      margin-right: 7px;
+      margin-right: 8px;
       color: #87CEEB;
       text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+      font-size: 14px;
     }
+    
     .player-name-row {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 800;
       color: #ffffff;
       text-shadow: 0 2px 4px rgba(0,0,0,0.5);
       text-align: center;
       background: rgba(65, 105, 225, 0.2);
-      padding: 12px;
+      padding: 15px;
       border-radius: 10px;
       border: 2px solid #4169E1;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
+      width: 100%;
     }
+    
     .base-price-row {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       color: #87CEEB;
       text-shadow: 0 1px 2px rgba(0,0,0,0.3);
       background: rgba(30, 144, 255, 0.15);
-      padding: 10px 12px;
+      padding: 15px;
       border-radius: 8px;
-      border-left: 4px solid #1E90FF;
+      border-left: 3px solid #1E90FF;
+      width: 100%;
+      text-align: center;
+      margin-top: 10px;
     }
+    
     .center-bid-section {
       display: flex;
       flex-direction: column;
       align-items: center;
       padding-bottom: 70px;
       position: relative;
-      min-width: 240px;
+      min-width: 280px;
     }
+    
     .player-image-container {
       border: 4px solid #4169E1;
       border-radius: 50%;
-      width: 115px; height: 115px;
+      width: 180px; 
+      height: 180px;
       overflow: hidden;
-      margin-bottom: 10px;
-      margin-top: 35px;
+      margin-bottom: 15px;
+      margin-top: 100px;
       background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 8px 20px #4169E130;
+      box-shadow: 0 10px 25px #4169E130;
     }
+    
     .player-image-container img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       border-radius: 50%;
     }
+    
     .current-bid-label {
       background: linear-gradient(135deg, #4169E1 0%, #1E90FF 100%);
       color: white;
-      padding: 8px 24px 8px 24px;
-      border-radius: 11px 11px 0 0;
+      padding: 10px 30px;
+      border-radius: 12px 12px 0 0;
       font-weight: 600;
-      margin-top: 16px;
-      font-size: 15px;
-      letter-spacing: 1.1px;
+      margin-top: 20px;
+      font-size: 16px;
+      letter-spacing: 1.2px;
       box-shadow: 0 4px 12px rgba(65, 105, 225, 0.3);
     }
+    
     .current-bid-value {
       background: #fff;
       color: #191970;
-      padding: 10px 32px 13px 32px;
-      border-radius: 0 0 13px 13px;
-      font-size: 23px;
+      padding: 15px 40px 18px 40px;
+      border-radius: 0 0 15px 15px;
+      font-size: 28px;
       font-weight: bold;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       box-shadow: 0 4px 12px rgba(65, 105, 225, 0.2);
-      letter-spacing: 1.4px;
+      letter-spacing: 1.5px;
       border: 2px solid #4169E1;
     }
+    
     .current-bidder {
-      margin-top: 11px;
+      margin-top: 15px;
       color: white;
       font-size: 18px;
       font-weight: 600;
-      letter-spacing: 1.18px;
+      letter-spacing: 1.2px;
       background: linear-gradient(135deg, #191970 0%, #000080 100%);
-      border-radius: 6px;
-      padding: 8px 16px;
-      min-height: 36px;
+      border-radius: 8px;
+      padding: 12px 20px;
+      min-height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
       border: 2px solid #4169E1;
       box-shadow: 0 4px 12px rgba(65, 105, 225, 0.3);
     }
+    
+    /* Teams table - TALLER to match left side */
     .teams-table-card {
       background: linear-gradient(135deg, #191970 0%, #000080 100%);
-      border-radius: 14px;
-      margin: 80px 28px 0 0;
-      padding: 21px 0 17px 0;
+      border-radius: 12px;
+      margin: 180px 15px 0 0;
+      padding: 20px 15px 20px 15px;
       color: white;
-      min-width: 225px;
-      min-height: 205px;
-      box-shadow: 0 6px 18px #4169E135;
+      min-width: 200px;
+      min-height: 350px;
+      max-height: none;
+      box-shadow: 0 8px 25px #4169E135;
       display: flex;
       flex-direction: column;
       align-items: center;
       border: 2px solid #4169E1;
     }
+    
     .teams-table-card table {
-      width: 98%;
-      margin: auto;
+      width: 100%;
       border-spacing: 0;
     }
+    
     .teams-table-card th, .teams-table-card td {
-      padding: 8px 8px;
+      padding: 8px 6px;
       text-align: left;
-      font-size: 16px;
+      font-size: 13px;
       color: white;
     }
+    
     .teams-table-card th {
       color: #87CEEB;
       font-weight: 700;
@@ -196,6 +220,7 @@
       border-bottom: 2px solid #4169E1;
       text-shadow: 0 1px 2px rgba(0,0,0,0.3);
     }
+    
     .teams-table-card td {
       color: white;
       border-bottom: 1px solid #4169E1;
@@ -212,34 +237,37 @@
       z-index: 1000;
       backdrop-filter: blur(3px);
     }
+    
     .sold-animation {
       text-align: center;
       color: white;
       animation: soldBounce 2s;
       background: linear-gradient(135deg, #191970 0%, #000080 100%);
-      padding: 45px 65px 38px 65px;
-      border-radius: 23px;
+      padding: 50px 70px 45px 70px;
+      border-radius: 25px;
       border: 4px solid #4169E1;
-      box-shadow: 0 11px 24px #4169E155;
+      box-shadow: 0 15px 30px #4169E155;
     }
+    
     .sold-text {
-      font-size: 4.2rem;
+      font-size: 4.5rem;
       font-weight: bold;
       color: #4169E1;
-      text-shadow: 0 0 28px #4169E1;
-      margin-bottom: 22px;
-      text-transform: uppercase;
-    }
-    .unsold-text {
-      font-size: 4.2rem;
-      font-weight: bold;
-      color: #ff4444;
-      text-shadow: 0 0 22px #ff4444;
-      margin-bottom: 22px;
+      text-shadow: 0 0 30px #4169E1;
+      margin-bottom: 25px;
       text-transform: uppercase;
     }
     
-    /* Profile Overlay with royal blue theme */
+    .unsold-text {
+      font-size: 4.5rem;
+      font-weight: bold;
+      color: #ff4444;
+      text-shadow: 0 0 25px #ff4444;
+      margin-bottom: 25px;
+      text-transform: uppercase;
+    }
+    
+    /* Profile Overlay */
     .profile-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -250,10 +278,10 @@
       color: white;
     }
     
-    /* Header banner with royal blue theme */
+    /* Header banner - EXTRA TALL for massive logo */
     .profile-header-banner {
       background: linear-gradient(90deg, #4169E1 0%, #1E90FF 30%, #6495ED 100%);
-      height: 120px;
+      height: 220px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -261,81 +289,68 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
     
-    .profile-header-banner::before,
-    .profile-header-banner::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      width: 0;
-      height: 0;
-      border-style: solid;
-    }
     
-    .profile-header-banner::before {
-      left: 0;
-      border-width: 120px 0 0 80px;
-      border-color: transparent transparent transparent #87CEEB;
-    }
     
-    .profile-header-banner::after {
-      right: 0;
-      border-width: 0 80px 120px 0;
-      border-color: transparent #87CEEB transparent transparent;
-    }
-    
+    /* Profile tournament logo - MASSIVE, no constraints */
     .profile-tournament-logo {
-      width: 100px;
-      height: 100px;
-      object-fit: contain;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.1);
-      padding: 8px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      width: 600px;
+      height: 280px;
+      object-fit: cover;
+      border-radius: 0;
+      background: none;
+      padding: 0;
+      box-shadow: none;
     }
     
     .profile-close {
       position: absolute;
-      top: 20px; right: 30px;
+      top: 25px; right: 35px;
       background: rgba(255,255,255,0.2);
       border: none;
       color: white;
-      font-size: 28px;
-      width: 40px; height: 40px;
+      font-size: 32px;
+      width: 45px; height: 45px;
       border-radius: 50%;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 10;
+      transition: background 0.3s ease;
+    }
+    
+    .profile-close:hover {
+      background: rgba(255,255,255,0.3);
     }
     
     .profile-content {
       display: flex;
-      max-width: 1200px;
-      margin: 40px auto;
-      padding: 0 30px;
-      gap: 40px;
+      max-width: 1400px;
+      margin: 20px auto;
+      padding: 0 40px;
+      gap: 30px;
       align-items: flex-start;
+      height: calc(100vh - 360px);
     }
     
-    /* Left side - Player image and basic info */
+    /* Profile left - SMALLER to balance huge logo */
     .profile-left {
-      flex: 0 0 300px;
+      flex: 0 0 220px;
       text-align: center;
     }
     
     .profile-player-image {
-      width: 280px;
-      height: 350px;
+      width: 200px;
+      height: 250px;
       object-fit: cover;
       border-radius: 20px;
-      border: 4px solid #4169E1;
+      border: 3px solid #4169E1;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
     
     .profile-player-name {
-      font-size: 2.5rem;
+      font-size: 1.8rem;
       font-weight: 800;
       color: #fff;
       margin-bottom: 10px;
@@ -345,40 +360,45 @@
     .profile-player-number {
       background: #4169E1;
       color: white;
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       font-weight: bold;
-      padding: 10px 20px;
+      padding: 8px 16px;
       border-radius: 10px;
       display: inline-block;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
     
     .profile-base-price {
       color: #fff;
-      font-size: 1.8rem;
+      font-size: 1.3rem;
       font-weight: 800;
-      padding: 15px 25px;
-      border-radius: 15px;
-      margin-top: 10px;
+      padding: 12px 20px;
+      border-radius: 12px;
+      margin-top: 8px;
       box-shadow: 0 4px 12px rgba(65, 105, 225, 0.3);
+      background: rgba(65, 105, 225, 0.2);
+      border: 2px solid #4169E1;
+      width:200px;
     }
     
-    /* Right side - Details table */
+    /* Profile table - COMPACT */
     .profile-right {
       flex: 1;
     }
     
     .profile-details-table {
       background: rgba(255,255,255,0.05);
-      border-radius: 20px;
+      border-radius: 15px;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
       border: 2px solid rgba(65, 105, 225, 0.3);
+      max-height: 680px;
     }
     
     .profile-table-row {
       display: flex;
       border-bottom: 1px solid rgba(255,255,255,0.1);
+
     }
     
     .profile-table-row:last-child {
@@ -390,14 +410,15 @@
     }
     
     .profile-table-label {
-      flex: 0 0 150px;
+      flex: 0 0 110px;
       background: linear-gradient(135deg, #4169E1 0%, #1E90FF 100%);
       color: white;
       font-weight: 700;
-      font-size: 1rem;
-      padding: 20px 25px;
+      font-size: 1.2rem;
+      padding: 12px 15px;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
+      padding-right:200px;
     }
     
     .profile-table-value {
@@ -406,39 +427,40 @@
       color: white;
       font-size: 1.2rem;
       font-weight: 600;
-      padding: 20px 25px;
+      padding: 12px 15px;
       word-wrap: break-word;
     }
     
     .profile-current-bidder {
-      margin-top: 30px;
+      margin-top: 20px;
       text-align: center;
       background: rgba(65, 105, 225, 0.2);
       border: 2px solid #4169E1;
-      border-radius: 15px;
-      padding: 20px;
+      border-radius: 12px;
+      padding: 15px;
+      max-height: 120px;
     }
     
     .profile-current-bidder-title {
-      font-size: 1.2rem;
+      font-size: 0.9rem;
       color: #87CEEB;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       font-weight: 700;
       text-transform: uppercase;
     }
     
     .profile-current-bidder-logo {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto 15px;
-      border-radius: 15px;
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 8px;
+      border-radius: 10px;
       object-fit: contain;
       background: rgba(255,255,255,0.1);
-      padding: 10px;
+      padding: 5px;
     }
     
     .profile-current-bidder-name {
-      font-size: 1.5rem;
+      font-size: 1.1rem;
       font-weight: 800;
       color: white;
     }
@@ -455,108 +477,158 @@
     }
     
     /* Responsive Design */
+    @media (max-width: 1400px) {
+      .auction-container { 
+        grid-template-columns: 1fr 1.5fr 1fr;
+        padding: 0 5px;
+      }
+      .tournament-logo img { width: 550px; height: 275px; }
+      .player-image-container { width: 150px; height: 150px; margin-top: 90px; }
+      .profile-tournament-logo { width: 550px; height: 260px; }
+      .profile-content { max-width: 1200px; gap: 25px; }
+      .profile-left { flex: 0 0 200px; }
+      .profile-player-image { width: 180px; height: 220px; }
+    }
+    
     @media (max-width: 1200px) {
-      .auction-container { grid-template-columns: 1fr 1.8fr 1fr;}
-      .teams-table-card { margin-right: 3vw;}
-      .player-details-card { margin-left: 15px;}
-      .tournament-logo { width: 120px; height: 120px; }
-      .tournament-logo img { width: 100px; height: 100px; }
+      .auction-container { 
+        grid-template-columns: 1fr 1.8fr 1fr;
+        grid-gap: 10px;
+      }
+      .teams-table-card { margin-right: 10px; margin-top: 160px; }
+      .player-details-card { margin-left: 10px; margin-top: 160px; }
+      .tournament-logo img { width: 500px; height: 250px; }
+      .player-details-card, .teams-table-card { min-height: 320px; }
+      .profile-left { flex: 0 0 180px; }
+      .profile-player-image { width: 160px; height: 200px; }
+      .profile-tournament-logo { width: 500px; height: 240px; }
+      .profile-header-banner { height: 280px; }
     }
     
     @media (max-width: 950px) {
-      .auction-container { grid-template-columns: 1fr; }
-      .player-details-card, .teams-table-card { margin: 27px auto; min-width: 200px;}
-      .center-bid-section { padding-bottom: 23px; }
-      .teams-table-card, .player-details-card { width: 94vw; }
-      .teams-table-card table { width: 99%; }
-      .tournament-logo { width: 100px; height: 100px; }
-      .tournament-logo img { width: 80px; height: 80px; }
+      .auction-container { 
+        grid-template-columns: 1fr; 
+        grid-gap: 12px;
+        padding: 0 10px;
+      }
+      .player-details-card, .teams-table-card { 
+        margin: 12px auto; 
+        width: 90vw;
+        max-width: 450px;
+        min-height: 280px;
+      }
+      .center-bid-section { 
+        padding-bottom: 25px; 
+        order: -1;
+        margin-top: 20px;
+      }
+      .tournament-logo img { width: 400px; height: 200px; }
+      .player-image-container { margin-top: 40px; }
       
       .profile-content {
         flex-direction: column;
         align-items: center;
         padding: 0 20px;
+        gap: 20px;
+        height: auto;
       }
-      .profile-left {
-        flex: none;
-      }
-      .profile-player-image {
-        width: 200px;
-        height: 250px;
-      }
+      .profile-left { flex: none; }
+      .profile-player-image { width: 150px; height: 180px; }
       .profile-table-label {
-        flex: 0 0 120px;
-        font-size: 0.9rem;
-        padding: 15px 20px;
+        flex: 0 0 90px;
+        font-size: 0.75rem;
+        padding: 10px 12px;
       }
       .profile-table-value {
-        font-size: 1.1rem;
-        padding: 15px 20px;
+        font-size: 0.9rem;
+        padding: 10px 12px;
       }
-      .profile-tournament-logo {
-        width: 80px;
-        height: 80px;
-      }
-      .profile-header-banner {
-        height: 100px;
-      }
+      .profile-tournament-logo { width: 380px; height: 190px; }
+      .profile-header-banner { height: 220px; }
       .profile-header-banner::before {
-        border-width: 100px 0 0 60px;
+        border-width: 220px 0 0 110px;
       }
       .profile-header-banner::after {
-        border-width: 0 60px 100px 0;
+        border-width: 0 110px 220px 0;
       }
     }
     
     @media (max-width: 670px) {
-      .player-details-card, .teams-table-card { padding: 14px 3vw;}
-      .center-bid-section { padding-bottom: 9px; }
-      .tournament-logo { width: 80px; height: 80px; }
-      .tournament-logo img { width: 60px; height: 60px; }
-      
-      .profile-tournament-logo { width: 70px; height: 70px; }
-      .profile-player-name { font-size: 2rem; }
-      .profile-player-image {
-        width: 180px;
-        height: 220px;
+      .player-details-card, .teams-table-card { 
+        padding: 18px 15px;
+        width: 95vw;
+        min-height: 250px;
       }
+      .center-bid-section { padding-bottom: 15px; }
+      .tournament-logo img { width: 350px; height: 175px; }
+      .player-image-container { width: 120px; height: 120px; }
+      .current-bid-value { font-size: 22px; padding: 10px 25px 12px 25px; }
+      
+      .profile-tournament-logo { width: 320px; height: 160px; }
+      .profile-player-name { font-size: 1.6rem; }
+      .profile-player-image { width: 130px; height: 160px; }
       .profile-table-label {
-        flex: 0 0 100px;
-        font-size: 0.8rem;
-        padding: 12px 15px;
+        flex: 0 0 80px;
+        font-size: 0.7rem;
+        padding: 8px 10px;
       }
       .profile-table-value {
-        font-size: 1rem;
-        padding: 12px 15px;
+        font-size: 0.85rem;
+        padding: 8px 10px;
       }
       .sold-text, .unsold-text { font-size: 3rem; }
-      .profile-header-banner {
-        height: 90px;
-      }
+      .profile-header-banner { height: 190px; }
+      .profile-content { padding: 0 15px; }
       .profile-header-banner::before {
-        border-width: 90px 0 0 50px;
+        border-width: 190px 0 0 95px;
       }
       .profile-header-banner::after {
-        border-width: 0 50px 90px 0;
+        border-width: 0 95px 190px 0;
       }
     }
     
-    @media (max-width: 400px) {
-      .player-details-card, .teams-table-card { padding: 9px 4vw; }
-      .tournament-logo { width: 60px; height: 60px;}
-      .tournament-logo img { width: 45px; height: 45px;}
-      .profile-content { padding: 0 15px; }
-      .profile-tournament-logo { width: 60px; height: 60px; }
+    @media (max-width: 480px) {
+      .player-details-card, .teams-table-card { 
+        padding: 15px 12px; 
+        margin: 10px auto;
+        width: 98vw;
+      }
+      .tournament-logo img { width: 300px; height: 150px; }
+      .player-image-container { width: 100px; height: 100px; }
+      .current-bid-value { font-size: 18px; }
+      .current-bidder { font-size: 14px; }
+      
+      .profile-content { padding: 0 10px; }
+      .profile-tournament-logo { width: 280px; height: 140px; }
       .sold-text, .unsold-text { font-size: 2.5rem; }
-      .profile-header-banner {
-        height: 80px;
+      .profile-header-banner { height: 170px; }
+      .profile-player-name { font-size: 1.4rem; }
+      .profile-player-image { width: 120px; height: 150px; }
+      .profile-table-label {
+        flex: 0 0 70px;
+        font-size: 0.65rem;
+        padding: 6px 8px;
+      }
+      .profile-table-value {
+        font-size: 0.8rem;
+        padding: 6px 8px;
       }
       .profile-header-banner::before {
-        border-width: 80px 0 0 40px;
+        border-width: 170px 0 0 85px;
       }
       .profile-header-banner::after {
-        border-width: 0 40px 80px 0;
+        border-width: 0 85px 170px 0;
       }
+    }
+    
+    @media (max-width: 360px) {
+      .tournament-logo img { width: 250px; height: 125px; }
+      .player-image-container { width: 90px; height: 90px; }
+      .current-bid-value { font-size: 16px; padding: 8px 15px 10px 15px; }
+      .sold-text, .unsold-text { font-size: 2rem; }
+      .profile-header-banner { height: 150px; }
+      .profile-player-image { width: 110px; height: 140px; }
+      .profile-tournament-logo { width: 240px; height: 120px; }
     }
   </style>
 </head>
@@ -669,11 +741,12 @@
     let isAnimating = false;
     let oldPlayerData = {};
     let isFirstLoad = true;
+    let profileUpdateInterval = null;
     
     function renderAuctionData(data) {
       currentPlayerData = data;
       
-      // Logo
+      // Logo - no box styling, just the image
       if (data.tournImg) {
         const logoDiv = document.getElementById('tournLogo');
         const logoImg = document.getElementById('tournLogoImg');
@@ -684,7 +757,7 @@
         document.getElementById('tournLogo').style.display = 'none';
       }
       
-      // Player Name - now with special styling
+      // Player Name
       document.getElementById('playerName').textContent = data.playerName || '';
       
       // Age
@@ -719,11 +792,11 @@
         document.getElementById('availableDatesRow').hidden = true;
       }
       
-      // Base Price - now with special styling
+      // Base Price
       document.getElementById('playerBasePrice').textContent =
         data.basePrice ? `Base Price: ₹${formatAmount(data.basePrice)}` : '';
       
-      // Player image
+      // Player image - bigger size
       renderPlayerImage(data.playerImg);
       
       // Current bid
@@ -748,7 +821,7 @@
           tableRows += `<tr>
              <td>${t.teamName}</td>
              <td>₹${formatAmount(t.remainingBalance)}</td>
-             <td>${playerCountCell}</td>
+             <td>${t.soldPlayersCount}</td>
           </tr>`;
         });
       }
@@ -758,7 +831,7 @@
     function renderProfileScreen(data) {
       console.log('Rendering profile for:', data.playerName);
       
-      // Tournament logo in header - single centered logo
+      // Tournament logo in header - much bigger, no background box
       if (data.tournImg) {
         document.getElementById('profileTournamentLogo').src = data.tournImg;
         document.getElementById('profileTournamentLogo').style.display = '';
@@ -783,10 +856,11 @@
       
       // Base Price
       const basePrice = data.basePrice ? formatAmount(data.basePrice) : '0';
-      document.getElementById('profileBasePrice').textContent = `BID PRICE : ${basePrice}`;
-      document.getElementById('profileBasePriceTable').textContent = basePrice;
+      const currentBidPrice = data.currentBid ? formatAmount(data.currentBid) : basePrice;
+      document.getElementById('profileBasePrice').textContent = `BID PRICE : ₹${currentBidPrice}`;
+      document.getElementById('profileBasePriceTable').textContent = `₹${basePrice}`;
       
-      // Age - only show if available
+      // Age
       if (data.age && data.age !== null && data.age !== "") {
         document.getElementById('profileAge').textContent = data.age;
         document.getElementById('profileAgeRow').hidden = false;
@@ -794,7 +868,7 @@
         document.getElementById('profileAgeRow').hidden = true;
       }
       
-      // Role - only show if available
+      // Role
       if (data.role && data.role !== null && data.role !== "") {
         document.getElementById('profileRole').textContent = data.role;
         document.getElementById('profileRoleRow').hidden = false;
@@ -802,7 +876,7 @@
         document.getElementById('profileRoleRow').hidden = true;
       }
       
-      // Location - only show if available
+      // Location
       if (data.location && data.location.trim() !== "") {
         document.getElementById('profileLocation').textContent = data.location;
         document.getElementById('profileLocationRow').hidden = false;
@@ -810,7 +884,7 @@
         document.getElementById('profileLocationRow').hidden = true;
       }
       
-      // Available Dates - only show if available
+      // Available Dates
       if (data.availableOnDates && data.availableOnDates.trim() !== "") {
         document.getElementById('profileAvailableDates').textContent = data.availableOnDates;
         document.getElementById('profileAvailableDatesRow').hidden = false;
@@ -825,10 +899,17 @@
         const currentBidderLogo = document.getElementById('profileCurrentBidderLogo');
         
         currentBidderName.textContent = teamIdNameMap[data.currentBidTeamId];
-        currentBidderLogo.src = data.currentBidderLogo || ''; // Add team logo URL if available
+        currentBidderLogo.src = data.currentBidderLogo || '';
         currentBidderSection.style.display = 'block';
       } else {
         document.getElementById('profileCurrentBidder').style.display = 'none';
+      }
+    }
+    
+    function updateProfileBidPrice() {
+      if (document.getElementById('profileOverlay').style.display === 'block') {
+        const currentBidPrice = currentPlayerData.currentBid ? formatAmount(currentPlayerData.currentBid) : (currentPlayerData.basePrice ? formatAmount(currentPlayerData.basePrice) : '0');
+        document.getElementById('profileBasePrice').textContent = `BID PRICE : ₹${currentBidPrice}`;
       }
     }
     
@@ -844,7 +925,7 @@
       let el = document.getElementById('playerImage');
       el.innerHTML = imgUrl
         ? `<img src="${imgUrl}" alt="Player Photo" onerror="this.style.display='none'" />`
-        : `<div style="font-size:52px;color:#75a;">👤</div>`;
+        : `<div style="font-size:72px;color:#75a;">👤</div>`;
     }
     
     async function fetchLatestPlayerData() {
@@ -934,11 +1015,11 @@
       if (isSold) {
         text.textContent = 'SOLD!';
         text.className = 'sold-text';
-        info.innerHTML = "<div style='font-size:1.38rem'>Congratulations!</div>";
+        info.innerHTML = "<div style='font-size:1.5rem'>Congratulations!</div>";
       } else {
         text.textContent = 'UNSOLD';
         text.className = 'unsold-text';
-        info.innerHTML = "<div style='font-size:1.38rem'>Better luck next time!</div>";
+        info.innerHTML = "<div style='font-size:1.5rem'>Better luck next time!</div>";
       }
       
       overlay.style.display = 'flex';
@@ -958,10 +1039,20 @@
       // Show overlay
       profileOverlay.style.display = 'block';
       
+      // Start updating bid price every second during profile display
+      profileUpdateInterval = setInterval(async () => {
+        const freshData = await fetchLatestPlayerData();
+        if (freshData) {
+          currentPlayerData = freshData;
+          updateProfileBidPrice();
+        }
+      }, 1000);
+      
       setTimeout(() => {
         profileOverlay.style.display = 'none';
+        clearInterval(profileUpdateInterval);
         if (onComplete) onComplete();
-      }, 5000); // 5 seconds for visibility
+      }, 15000); // 15 seconds display time
     }
     
     async function fetchAndUpdate() {
@@ -985,6 +1076,7 @@
     // Close profile manually
     document.getElementById('profileClose').addEventListener('click', () => {
       document.getElementById('profileOverlay').style.display = 'none';
+      clearInterval(profileUpdateInterval);
     });
     
     document.addEventListener('DOMContentLoaded', function () {
