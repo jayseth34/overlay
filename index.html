@@ -10,7 +10,7 @@
     body {
       margin: 0;
       font-family: 'Inter', Arial, sans-serif;
-      background: #f7feff;
+      background: #e8f4fd;
       min-height: 100vh;
     }
     .auction-container {
@@ -31,13 +31,13 @@
       z-index: 20;
       width: 150px;
       height: 150px;
-      background: #f3fff0;
+      background: #f0f8ff;
       border-radius: 20px;
-      box-shadow: 0 8px 25px #23dca928;
+      box-shadow: 0 8px 25px #1e40af28;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 4px solid #c9fff0;
+      border: 4px solid #93c5fd;
     }
     .tournament-logo img {
       width: 130px; 
@@ -47,15 +47,15 @@
       display: block;
     }
     .player-details-card {
-      background: #e6fcfa;
+      background: #1e3a8a;
       border-radius: 13px;
       margin: 80px 0 0 22px;
       padding: 28px 18px 25px 33px;
-      color: #009fa7;
+      color: white;
       font-size: 18px;
       min-width: 220px;
       min-height: 210px;
-      box-shadow: 0 6px 18px #10efd122;
+      box-shadow: 0 6px 18px #3b82f622;
       display: flex;
       flex-direction: column;
       gap: 9px;
@@ -65,6 +65,7 @@
     .detail-label {
       font-weight: bold;
       margin-right: 7px;
+      color: #93c5fd;
     }
     .center-bid-section {
       display: flex;
@@ -75,13 +76,13 @@
       min-width: 240px;
     }
     .player-image-container {
-      border: 3px solid #08bba3;
+      border: 3px solid #2563eb;
       border-radius: 50%;
       width: 115px; height: 115px;
       overflow: hidden;
       margin-bottom: 10px;
       margin-top: 35px;
-      background: #eafffa;
+      background: #f0f8ff;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -93,8 +94,8 @@
       border-radius: 50%;
     }
     .current-bid-label {
-      background: #4cf7b5;
-      color: #045c58;
+      background: #60a5fa;
+      color: #1e3a8a;
       padding: 8px 24px 8px 24px;
       border-radius: 11px 11px 0 0;
       font-weight: 600;
@@ -104,22 +105,22 @@
     }
     .current-bid-value {
       background: #fff;
-      color: #258f73;
+      color: #1d4ed8;
       padding: 10px 32px 13px 32px;
       border-radius: 0 0 13px 13px;
       font-size: 23px;
       font-weight: bold;
       margin-bottom: 8px;
-      box-shadow: 0 2px 7px #17b7a820;
+      box-shadow: 0 2px 7px #3b82f620;
       letter-spacing: 1.4px;
     }
     .current-bidder {
       margin-top: 11px;
-      color: #266870;
+      color: white;
       font-size: 18px;
       font-weight: 600;
       letter-spacing: 1.18px;
-      background: #e6fcfce7;
+      background: #1e3a8ae7;
       border-radius: 6px;
       padding: 5px 14px;
       min-height: 36px;
@@ -128,14 +129,14 @@
       justify-content: center;
     }
     .teams-table-card {
-      background: #daeefd;
+      background: #1e3a8a;
       border-radius: 14px;
       margin: 80px 28px 0 0;
       padding: 21px 0 17px 0;
-      color: #009ed9;
+      color: white;
       min-width: 225px;
       min-height: 205px;
-      box-shadow: 0 6px 18px #208fb222;
+      box-shadow: 0 6px 18px #3b82f622;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -149,16 +150,17 @@
       padding: 8px 8px;
       text-align: left;
       font-size: 16px;
+      color: white;
     }
     .teams-table-card th {
-      color: #1366a0;
+      color: #93c5fd;
       font-weight: 700;
       text-transform: uppercase;
-      border-bottom: 2px solid #20a7d6;
+      border-bottom: 2px solid #2563eb;
     }
     .teams-table-card td {
-      color: #228aa1;
-      border-bottom: 1px solid #b0dad5;
+      color: white;
+      border-bottom: 1px solid #93c5fd;
     }
     
     /* Animation Overlay */
@@ -176,17 +178,17 @@
       text-align: center;
       color: white;
       animation: soldBounce 2s;
-      background: rgba(16, 32, 32, 0.95);
+      background: rgba(30, 58, 138, 0.95);
       padding: 45px 65px 38px 65px;
       border-radius: 23px;
-      border: 4px solid #00ff88;
-      box-shadow: 0 11px 24px #00ff8822;
+      border: 4px solid #60a5fa;
+      box-shadow: 0 11px 24px #60a5fa22;
     }
     .sold-text {
       font-size: 4.2rem;
       font-weight: bold;
-      color: #00ff88;
-      text-shadow: 0 0 28px #00ff88;
+      color: #60a5fa;
+      text-shadow: 0 0 28px #60a5fa;
       margin-bottom: 22px;
       text-transform: uppercase;
     }
@@ -199,20 +201,20 @@
       text-transform: uppercase;
     }
     
-    /* Profile Overlay - Inspired by the reference image */
+    /* Profile Overlay with blue theme */
     .profile-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%);
       display: none;
       z-index: 1002;
       animation: fadeIn 0.5s ease;
       color: white;
     }
     
-    /* Header banner with single centered logo */
+    /* Header banner with blue theme */
     .profile-header-banner {
-      background: linear-gradient(90deg, #ff6b6b 0%, #ee5a24 30%, #ff6b6b 100%);
+      background: linear-gradient(90deg, #3b82f6 0%, #2563eb 30%, #1d4ed8 100%);
       height: 120px;
       display: flex;
       align-items: center;
@@ -234,13 +236,13 @@
     .profile-header-banner::before {
       left: 0;
       border-width: 120px 0 0 80px;
-      border-color: transparent transparent transparent #feca57;
+      border-color: transparent transparent transparent #60a5fa;
     }
     
     .profile-header-banner::after {
       right: 0;
       border-width: 0 80px 120px 0;
-      border-color: transparent #feca57 transparent transparent;
+      border-color: transparent #60a5fa transparent transparent;
     }
     
     .profile-tournament-logo {
@@ -289,7 +291,7 @@
       height: 350px;
       object-fit: cover;
       border-radius: 20px;
-      border: 4px solid #ff6b6b;
+      border: 4px solid #60a5fa;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       margin-bottom: 20px;
     }
@@ -297,13 +299,13 @@
     .profile-player-name {
       font-size: 2.5rem;
       font-weight: 800;
-      color: #ff6b6b;
+      color: #60a5fa;
       margin-bottom: 10px;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     }
     
     .profile-player-number {
-      background: #ff6b6b;
+      background: #60a5fa;
       color: white;
       font-size: 1.5rem;
       font-weight: bold;
@@ -314,8 +316,8 @@
     }
     
     .profile-base-price {
-      background: #feca57;
-      color: #1a1a2e;
+      background: #93c5fd;
+      color: #1e3a8a;
       font-size: 1.8rem;
       font-weight: 800;
       padding: 15px 25px;
@@ -333,7 +335,7 @@
       border-radius: 20px;
       overflow: hidden;
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      border: 2px solid rgba(255,107,107,0.3);
+      border: 2px solid rgba(96,165,250,0.3);
     }
     
     .profile-table-row {
@@ -351,7 +353,7 @@
     
     .profile-table-label {
       flex: 0 0 150px;
-      background: #ff6b6b;
+      background: #3b82f6;
       color: white;
       font-weight: 700;
       font-size: 1rem;
@@ -373,15 +375,15 @@
     .profile-current-bidder {
       margin-top: 30px;
       text-align: center;
-      background: rgba(255,107,107,0.2);
-      border: 2px solid #ff6b6b;
+      background: rgba(96,165,250,0.2);
+      border: 2px solid #60a5fa;
       border-radius: 15px;
       padding: 20px;
     }
     
     .profile-current-bidder-title {
       font-size: 1.2rem;
-      color: #ff6b6b;
+      color: #60a5fa;
       margin-bottom: 10px;
       font-weight: 700;
       text-transform: uppercase;
@@ -534,6 +536,9 @@
       <div id="roleRow" class="detail-row" hidden>
         <span class="detail-label">Role:</span> <span id="playerRole"></span>
       </div>
+      <div id="locationRow" class="detail-row" hidden>
+        <span class="detail-label">Location:</span> <span id="playerLocation"></span>
+      </div>
       <div id="availableDatesRow" class="detail-row" hidden>
         <span class="detail-label">Available Dates:</span> <span id="playerDates"></span>
       </div>
@@ -589,9 +594,9 @@
               <div class="profile-table-label">Role</div>
               <div class="profile-table-value" id="profileRole">N/A</div>
             </div>
-            <div class="profile-table-row" id="profileNativePlaceRow" hidden>
-              <div class="profile-table-label">Native Place</div>
-              <div class="profile-table-value" id="profileNativePlace">N/A</div>
+            <div class="profile-table-row" id="profileLocationRow" hidden>
+              <div class="profile-table-label">Location</div>
+              <div class="profile-table-value" id="profileLocation">N/A</div>
             </div>
             <div class="profile-table-row" id="profileAvailableDatesRow" hidden>
               <div class="profile-table-label">Available Dates</div>
@@ -645,24 +650,32 @@
       document.getElementById('playerName').textContent = data.playerName || '';
       
       // Age
-      if (data.Age && data.Age !== null && data.Age !== "") {
-        document.getElementById('playerAge').textContent = data.Age;
+      if (data.age && data.age !== null && data.age !== "") {
+        document.getElementById('playerAge').textContent = data.age;
         document.getElementById('ageRow').hidden = false;
       } else {
         document.getElementById('ageRow').hidden = true;
       }
       
       // Role
-      if (data.Role && data.Role !== null && data.Role !== "") {
-        document.getElementById('playerRole').textContent = data.Role;
+      if (data.role && data.role !== null && data.role !== "") {
+        document.getElementById('playerRole').textContent = data.role;
         document.getElementById('roleRow').hidden = false;
       } else {
         document.getElementById('roleRow').hidden = true;
       }
       
+      // Location
+      if (data.location && data.location !== null && data.location !== "") {
+        document.getElementById('playerLocation').textContent = data.location;
+        document.getElementById('locationRow').hidden = false;
+      } else {
+        document.getElementById('locationRow').hidden = true;
+      }
+      
       // Available Dates
-      if (data.AvailableDates && data.AvailableDates.trim() !== "") {
-        document.getElementById('playerDates').textContent = data.AvailableDates;
+      if (data.availableOnDates && data.availableOnDates.trim() !== "") {
+        document.getElementById('playerDates').textContent = data.availableOnDates;
         document.getElementById('availableDatesRow').hidden = false;
       } else {
         document.getElementById('availableDatesRow').hidden = true;
@@ -685,7 +698,7 @@
         currentBidTeamName = teamIdNameMap[data.currentBidTeamId];
       }
       document.getElementById('currentBidder').textContent =
-        currentBidTeamName ? `Bidder: ${currentBidTeamName}` : '';
+        currentBidTeamName ? `Bidder: ${currentBidTeamName}` : 'No Current Bidder';
       
       // Teams Table
       let tableRows = '';
@@ -693,7 +706,7 @@
         teamIdNameMap = {};
         data.wallets.forEach((t, i) => {
           teamIdNameMap[t.teamId] = t.teamName;
-          let playerCountCell = t.playerCount !== undefined ? t.playerCount : '';
+          let playerCountCell = t.playerCount !== undefined ? t.playerCount : '--';
           tableRows += `<tr>
              <td>${t.teamName}</td>
              <td>₹${formatAmount(t.remainingBalance)}</td>
@@ -736,32 +749,32 @@
       document.getElementById('profileBasePriceTable').textContent = basePrice;
       
       // Age - only show if available
-      if (data.Age && data.Age !== null && data.Age !== "") {
-        document.getElementById('profileAge').textContent = data.Age;
+      if (data.age && data.age !== null && data.age !== "") {
+        document.getElementById('profileAge').textContent = data.age;
         document.getElementById('profileAgeRow').hidden = false;
       } else {
         document.getElementById('profileAgeRow').hidden = true;
       }
       
       // Role - only show if available
-      if (data.Role && data.Role !== null && data.Role !== "") {
-        document.getElementById('profileRole').textContent = data.Role;
+      if (data.role && data.role !== null && data.role !== "") {
+        document.getElementById('profileRole').textContent = data.role;
         document.getElementById('profileRoleRow').hidden = false;
       } else {
         document.getElementById('profileRoleRow').hidden = true;
       }
       
-      // Native Place - only show if available
-      if (data.nativePlace && data.nativePlace.trim() !== "") {
-        document.getElementById('profileNativePlace').textContent = data.nativePlace;
-        document.getElementById('profileNativePlaceRow').hidden = false;
+      // Location - only show if available
+      if (data.location && data.location.trim() !== "") {
+        document.getElementById('profileLocation').textContent = data.location;
+        document.getElementById('profileLocationRow').hidden = false;
       } else {
-        document.getElementById('profileNativePlaceRow').hidden = true;
+        document.getElementById('profileLocationRow').hidden = true;
       }
       
       // Available Dates - only show if available
-      if (data.AvailableDates && data.AvailableDates.trim() !== "") {
-        document.getElementById('profileAvailableDates').textContent = data.AvailableDates;
+      if (data.availableOnDates && data.availableOnDates.trim() !== "") {
+        document.getElementById('profileAvailableDates').textContent = data.availableOnDates;
         document.getElementById('profileAvailableDatesRow').hidden = false;
       } else {
         document.getElementById('profileAvailableDatesRow').hidden = true;
