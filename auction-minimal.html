@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cricket Auction - Minimal Overlay</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: transparent;
+            height: 100vh;
+            overflow: hidden;
+            color: #ffffff;
+            font-size: 14px;
+        }
+
+        .overlay-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 9999;
+            padding: 10px;
+        }
+
+        /* Title Sponsor label above right image */
+        .sponsor-title {
+            position: fixed;
+            top: 2px;
+            right: 15px;
+            color: #4A90E2;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 10001;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2px 6px;
+            border-radius: 5px;
+        }
+.sponsor-name {
+            position: fixed;
+            top: 102px;
+            right: 15px;
+            color: #4A90E2;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 10001;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2px 6px;
+            border-radius: 5px;
+        }
+
+        /* Two extra images - top left and top right */
+        .extra-img {
+            position: fixed;
+            top: 15px;
+            width: 80px;
+            height: 80px;
+            z-index: 10000;
+            border-radius: 10px;
+            border: 2px solid #4A90E2;
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+
+        .extra-img.left {
+            left: 15px;
+        }
+
+        .extra-img.right {
+            right: 15px;
+        }
+
+        /* Logo at top center - smaller */
+        .logo-container {
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #4A90E2;
+            box-shadow: 0 6px 16px rgba(74, 144, 226, 0.3);
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        /* Bottom content sections - smaller */
+        .bottom-content {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            gap: 15px;
+            align-items: flex-end;
+            justify-content: space-between;
+        }
+
+        /* Left Section - Player Info - smaller */
+        .left-section {
+            width: 240px;
+            background: rgba(26, 35, 126, 0.85);
+            backdrop-filter: blur(8px);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 4px 16px rgba(26, 35, 126, 0.4);
+        }
+
+        .player-info-card {
+            background: rgba(26, 35, 126, 0.3);
+            border: 2px solid #4A90E2;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .player-name {
+            color: #4A90E2;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #4A90E2;
+            padding-bottom: 5px;
+            text-align: center;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+            font-size: 11px;
+        }
+
+        .info-label {
+            color: #B0C4DE;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .info-value {
+            color: #ffffff;
+            font-weight: bold;
+            text-align: right;
+            flex: 1;
+        }
+
+        /* Center Section - Player Image and Bid - smaller */
+        .center-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            max-width: 320px;
+        }
+
+        /* Player image - rectangular shape smaller */
+        .player-image-container {
+            width: 120px;
+            height: 150px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #4A90E2;
+            box-shadow: 0 6px 16px rgba(74, 144, 226, 0.3);
+            overflow: hidden;
+        }
+
+        .player-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .current-bid-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            border: 3px solid #4A90E2;
+            border-radius: 15px;
+            padding: 16px 28px;
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.3);
+            min-width: 200px;
+        }
+
+        .bid-label {
+            color: #4A90E2;
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            background: #4A90E2;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        .bid-amount {
+            color: #2c3e50;
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 6px;
+        }
+
+        .bid-team {
+            background: rgba(26, 35, 126, 0.9);
+            color: #ffffff;
+            padding: 6px 16px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 12px;
+            border: 2px solid #4A90E2;
+        }
+
+        /* Right Section - Team Wallets - smaller */
+        .right-section {
+            width: 280px;
+            background: rgba(26, 35, 126, 0.85);
+            backdrop-filter: blur(8px);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 4px 16px rgba(26, 35, 126, 0.4);
+        }
+
+        .teams-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4A90E2;
+        }
+
+        .header-item {
+            color: #4A90E2;
+            font-weight: bold;
+            font-size: 10px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .team-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin: 6px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            border: 1px solid rgba(74, 144, 226, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .team-row:hover {
+            background: rgba(74, 144, 226, 0.1);
+            border-color: #4A90E2;
+        }
+
+        .team-name {
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .team-balance {
+            color: #90EE90;
+            font-weight: bold;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .team-players {
+            color: #B0C4DE;
+            font-size: 10px;
+            text-align: center;
+        }
+
+        .active-bidder {
+            background: rgba(74, 144, 226, 0.25) !important;
+            border: 2px solid #4A90E2 !important;
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+        }
+
+        .loading-indicator {
+            position: fixed;
+            top: 128px;
+            right: 15px;
+            background: rgba(74, 144, 226, 0.9);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 10px;
+            border: 2px solid #4A90E2;
+            z-index: 100;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .bottom-content {
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+            }
+            
+            .left-section,
+            .right-section {
+                width: 100%;
+                max-width: 320px;
+            }
+            
+            .center-section {
+                max-width: none;
+                width: 100%;
+            }
+            
+            .bid-amount {
+                font-size: 24px;
+            }
+
+            .player-image-container {
+                width: 100px;
+                height: 130px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .overlay-container {
+                padding: 8px;
+                font-size: 12px;
+            }
+            
+            .logo-container {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .bid-amount {
+                font-size: 20px;
+            }
+            
+            .player-image-container {
+                width: 90px;
+                height: 120px;
+            }
+            
+            .left-section,
+            .right-section {
+                padding: 12px;
+            }
+
+            .bottom-content {
+                gap: 8px;
+            }
+
+            .extra-img {
+                width: 60px;
+                height: 60px;
+                top: 10px;
+            }
+
+            .extra-img.left {
+                left: 10px;
+            }
+
+            .extra-img.right {
+                right: 10px;
+            }
+
+            .sponsor-title {
+                font-size: 9px;
+                top: -2px;
+                right: 10px;
+            }
+.sponsor-name {
+                font-size: 9px;
+                top: -2px;
+                right: 10px;
+            }
+
+        }
+    </style>
+</head>
+<body>
+    <!-- Title Sponsor label above right image -->
+    <div class="sponsor-title">Title Sponsor</div>
+    
+    <!-- Two extra images - top left and top right -->
+    <img src="assets/left-image.png" alt="Left Sponsor" class="extra-img left" onerror="this.style.display='none'">
+    <img src="assets/right-image.png" alt="Right Sponsor" class="extra-img right" onerror="this.style.display='none'">
+    <div class="sponsor-name">NISHIT OVERSEAS</div>
+    <div class="overlay-container">
+        <div class="loading-indicator" id="loadingIndicator">🔄 Loading...</div>
+
+        <!-- Logo at top center -->
+        <div class="logo-container">
+            <img id="tournamentLogo" src="" alt="Tournament Logo" onerror="this.style.display='none'">
+            <span style="font-size: 30px; color: #4A90E2;">🏆</span>
+        </div>
+
+        <!-- Bottom content sections -->
+        <div class="bottom-content">
+            <!-- Left Section - Player Info -->
+            <div class="left-section">
+                <div class="player-info-card">
+                    <div class="player-name" id="playerName">Loading Player...</div>
+                    <div class="info-row">
+                        <span class="info-label">Player ID:</span>
+                        <span class="info-value" id="playerId">--</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Role:</span>
+                        <span class="info-value" id="playerRole">--</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Native Place:</span>
+                        <span class="info-value" id="playerLocation">--</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Available:</span>
+                        <span class="info-value" id="availableDates">--</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Base Price:</span>
+                        <span class="info-value" id="basePrice">₹0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center Section - Player Image and Bid Info -->
+            <div class="center-section">
+                <!-- Player image ABOVE the bid info -->
+                <div class="player-image-container">
+                    <img id="playerImage" src="" alt="Player Photo">
+                </div>
+
+                <!-- Bid info BELOW the player image -->
+                <div class="current-bid-container">
+                    <div class="bid-label">CURRENT BID</div>
+                    <div class="bid-amount" id="currentBidAmount">₹1.2 K</div>
+                    <div class="bid-team" id="currentBidTeam">SPL 2</div>
+                </div>
+            </div>
+
+            <!-- Right Section - Team Wallets -->
+            <div class="right-section">
+                <div class="teams-header">
+                    <div class="header-item">TEAM</div>
+                    <div class="header-item">BALANCE</div>
+                    <div class="header-item">PLAYERS</div>
+                </div>
+                <div id="teamsList">
+                    <!-- Teams populated dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class MinimalAuctionDisplay {
+            constructor() {
+                this.apiBaseUrl = 'https://sportsdecor.somee.com/api/Auction/state/';
+                this.tournamentId = this.getTournamentIdFromUrl();
+                this.currentPlayerId = null;
+                this.previousPlayerData = null;
+                this.pollingInterval = null;
+                this.currentData = null;
+                
+                this.initializeDisplay();
+            }
+
+            getTournamentIdFromUrl() {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get('tournamentId') || '115';
+            }
+
+            initializeDisplay() {
+                this.loadAuctionData();
+                this.startPolling();
+            }
+
+            async loadAuctionData() {
+                try {
+                    this.updateLoadingIndicator('Fetching...');
+                    
+                    const response = await fetch(`${this.apiBaseUrl}${this.tournamentId}`);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const result = await response.json();
+                    
+                    if (result.statusCode === 200 && result.data) {
+                        this.processAuctionData(result.data);
+                        this.updateLoadingIndicator('Live');
+                        
+                        setTimeout(() => {
+                            document.getElementById('loadingIndicator').style.opacity = '0.7';
+                        }, 2000);
+                    }
+                    
+                } catch (error) {
+                    console.error('Error loading auction data:', error);
+                    this.updateLoadingIndicator('❌ Error');
+                }
+            }
+
+            processAuctionData(data) {
+                console.log('Processing auction data:', data);
+                this.currentData = data;
+                
+                // Check for player change
+                this.checkPlayerChange(data);
+                
+                // Update display
+                this.updateDisplay(data);
+            }
+
+            checkPlayerChange(data) {
+                const newPlayerId = data.playerId;
+                
+                // If player changed, show full display
+                if (this.currentPlayerId && this.currentPlayerId !== newPlayerId) {
+                    console.log('Player changed - switching to full display');
+                    this.switchToFullDisplay();
+                    return;
+                }
+                
+                // Store current data for next comparison
+                this.previousPlayerData = {
+                    currentBid: data.currentBid,
+                    basePrice: data.basePrice,
+                    playerId: data.playerId
+                };
+                
+                this.currentPlayerId = newPlayerId;
+            }
+
+            updateDisplay(data) {
+                // Update player info
+                document.getElementById('playerName').textContent = data.playerName || 'Unknown Player';
+                document.getElementById('playerId').textContent = data.playerId || '--';
+                document.getElementById('playerRole').textContent = data.role || 'Unknown';
+                document.getElementById('playerLocation').textContent = data.location || 'Unknown';
+                document.getElementById('availableDates').textContent = data.availableOnDates || 'All Available';
+                document.getElementById('basePrice').textContent = `₹${this.formatAmount(data.basePrice || 0)}`;
+
+                // Update current bid
+                document.getElementById('currentBidAmount').textContent = `₹${this.formatAmount(data.currentBid || 0)}`;
+                
+                let teamText = 'No Current Bidder';
+                if (data.currentBidTeamId && data.wallets) {
+                    const biddingTeam = data.wallets.find(wallet => wallet.teamId === data.currentBidTeamId);
+                    if (biddingTeam) {
+                        teamText = biddingTeam.teamName;
+                    }
+                }
+                document.getElementById('currentBidTeam').textContent = teamText;
+
+                // Update player image
+                const playerImg = document.getElementById('playerImage');
+                if (data.playerImg) {
+                    playerImg.src = data.playerImg;
+                    playerImg.style.display = 'block';
+                    playerImg.onerror = () => {
+                        playerImg.style.display = 'none';
+                        playerImg.parentElement.innerHTML = '<span style="font-size: 40px; color: #4A90E2;">👤</span>';
+                    };
+                } else {
+                    playerImg.parentElement.innerHTML = '<span style="font-size: 40px; color: #4A90E2;">👤</span>';
+                }
+
+                // Update logo
+                if (data.tournImg) {
+                    const logo = document.getElementById('tournamentLogo');
+                    logo.src = data.tournImg;
+                    logo.style.display = 'block';
+                    logo.nextElementSibling.style.display = 'none';
+                }
+
+                // Update teams
+                this.updateTeamsList(data.wallets || []);
+            }
+
+            updateTeamsList(wallets) {
+                const container = document.getElementById('teamsList');
+                container.innerHTML = '';
+                
+                wallets.forEach(wallet => {
+                    const row = document.createElement('div');
+                    row.className = 'team-row';
+                    
+                    // Highlight current bidding team
+                    if (this.currentData && wallet.teamId === this.currentData.currentBidTeamId) {
+                        row.classList.add('active-bidder');
+                    }
+                    
+                    row.innerHTML = `
+                        <div class="team-name">${wallet.teamName}</div>
+                        <div class="team-balance">₹${this.formatAmount(wallet.remainingBalance)}</div>
+                        <div class="team-players">${wallet.soldPlayersCount || '--'}</div>
+                    `;
+                    
+                    container.appendChild(row);
+                });
+            }
+
+            switchToFullDisplay() {
+                window.open('index.html?tournamentId=' + this.tournamentId, '_self');
+            }
+
+            startPolling() {
+                if (this.pollingInterval) {
+                    clearInterval(this.pollingInterval);
+                }
+                
+                this.pollingInterval = setInterval(() => {
+                    this.loadAuctionData();
+                }, 3000);
+            }
+
+            formatAmount(amount) {
+                if (amount >= 10000000) {
+                    return `${(amount / 10000000).toFixed(1)} Cr`;
+                } else if (amount >= 100000) {
+                    return `${(amount / 100000).toFixed(1)} L`;
+                } else if (amount >= 1000) {
+                    return `${(amount / 1000).toFixed(1)} K`;
+                } else {
+                    return amount.toLocaleString();
+                }
+            }
+
+            updateLoadingIndicator(message) {
+                const indicator = document.getElementById('loadingIndicator');
+                if (indicator) {
+                    indicator.textContent = message;
+                }
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            window.minimalDisplay = new MinimalAuctionDisplay();
+        });
+    </script>
+</body>
+</html>
