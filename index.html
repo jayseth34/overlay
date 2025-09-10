@@ -34,7 +34,7 @@
         .sponsor-title {
             position: fixed;
             top: 5px;
-            right: 15px;
+            right: 88px;
             color: #ffffff;
             font-size: 13px;
             font-weight: bold;
@@ -50,8 +50,8 @@
         
         .sponsor-name {
             position: fixed;
-            top: 105px;
-            right: 15px;
+            top: 210px;
+            right: 91px;
             color: #ffffff;
             font-size: 11px;
             font-weight: bold;
@@ -68,9 +68,9 @@
         /* Enhanced Extra Images */
         .extra-img {
             position: fixed;
-            top: 15px;
-            width: 90px;
-            height: 90px;
+            top: 45px;
+            width: 147px;
+            height: 157px;
             z-index: 10000;
             border-radius: 15px;
             border: 3px solid #3498db;
@@ -83,10 +83,10 @@
             box-shadow: 0 12px 25px rgba(52, 152, 219, 0.7);
         }
         .extra-img.left {
-            left: 15px;
+            left: 88px;
         }
         .extra-img.right {
-            right: 15px;
+            right: 88px;
         }
         
         .league-header {
@@ -98,13 +98,11 @@
             width: 400px;
             height: 110px;
             margin: 0 auto;
-            background: #ffffff;
             border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            border: 3px solid #3498db;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
         .league-logo img {
@@ -162,13 +160,13 @@
         
         /* Enhanced Info Cards - Much Wider */
         .info-card {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(3, 0, 54, 0.95);
             border: 2px solid #3498db;
             border-radius: 15px;
             padding: 20px 25px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
-            min-width: 220px;
+            min-width: 450px;
             text-align: center;
         }
         .info-card:hover {
@@ -178,17 +176,17 @@
         }
         
         .info-label {
-            font-size: 12px;
-            color: #7f8c8d;
+            font-size: 25px;
+            color: #04ffff;
             text-transform: uppercase;
             margin-bottom: 10px;
             font-weight: 700;
             letter-spacing: 1px;
         }
         .info-value {
-            font-size: 18px;
+            font-size: 25px;
             font-weight: bold;
-            color: #2c3e50;
+            color: #ffffff;
             word-wrap: break-word;
         }
         
@@ -261,29 +259,29 @@
             color: #ffffff;
         }
         
-        /* Enhanced Current Bid Display - Much Larger */
+        /* Enhanced Current Bid Display - Much Larger and More Visible */
         .current-bid-display {
             background: linear-gradient(135deg, #27ae60, #2ecc71);
             border: 4px solid #1e8449;
             border-radius: 25px;
-            padding: 35px 40px;
+            padding: 30px 35px;
             text-align: center;
-            box-shadow: 0 20px 45px rgba(39, 174, 96, 0.5);
+            box-shadow: 0 20px 45px rgba(39, 174, 96, 0.6);
             width: 100%;
             max-width: 600px;
             margin: 0 auto;
         }
         
         .bid-amount {
-            font-size: 56px;
+            font-size: 48px;
             font-weight: 900;
             color: #ffffff;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
             letter-spacing: 2px;
         }
         .bid-team {
-            font-size: 20px;
+            font-size: 18px;
             color: #ffffff;
             font-weight: 600;
             text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
@@ -364,7 +362,7 @@
             }
             
             .bid-amount {
-                font-size: 44px;
+                font-size: 40px;
             }
         }
         
@@ -419,11 +417,11 @@
             }
             
             .bid-amount {
-                font-size: 38px;
+                font-size: 32px;
             }
             
             .current-bid-display {
-                padding: 25px 30px;
+                padding: 20px 25px;
             }
         }
     </style>
@@ -461,11 +459,14 @@
                         <div class="info-label">Native Place</div>
                         <div class="info-value" id="playerLocation">Loading...</div>
                     </div>
+                    <div class="info-card">
+                        <div class="info-label">Current Bid</div>
+                        <div class="info-value" id="currentBidAmount">₹0</div>
+                    </div>
                 </div>
                 
                 <!-- Center - Player Content -->
                 <div class="player-center">
-                    <div class="player-category" id="playerCategory">Loading</div>
                     <div class="player-name" id="playerName">Loading Player...</div>
                     
                     <div class="player-photo">
@@ -479,10 +480,6 @@
                     </div>
                     
                     <!-- Enhanced Current Bid Display -->
-                    <div class="current-bid-display">
-                        <div class="bid-amount" id="currentBidAmount">₹0</div>
-                        <div class="bid-team" id="currentBidTeam">No Bids Yet</div>
-                    </div>
                 </div>
                 
                 <!-- Right side info -->
@@ -495,6 +492,10 @@
                         <div class="info-label">Available</div>
                         <div class="info-value" id="availableDates">Loading...</div>
                     </div>
+                    <div class="info-card">
+                        <div class="info-label">Current Bid By</div>
+                        <div class="info-value" id="currentBidTeamSide">No Bids Yet</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -506,10 +507,14 @@
                 this.apiBaseUrl = 'https://sportsdecor.somee.com/api/Auction/state/';
                 this.tournamentId = this.getTournamentIdFromUrl();
                 this.currentData = null;
-                this.displayTimer = null;
                 
                 this.loadAuctionData();
                 
+                // Set up periodic refresh every 2 seconds
+                setInterval(() => {
+                    this.loadAuctionData();
+                }, 2000);
+
                 this.displayTimer = setTimeout(() => {
                     this.switchToMinimal();
                 }, 10000);
@@ -517,6 +522,7 @@
                 window.addEventListener('message', (event) => {
                     if (event.data.type === 'PLAYER_CHANGE') {
                         console.log('Received player change notification');
+                        this.loadAuctionData();
                         this.showDisplay();
                     }
                 });
@@ -563,18 +569,6 @@
                 document.getElementById('basePrice').textContent = `₹${this.formatAmount(data.basePrice || 0)}`;
                 document.getElementById('availableDates').textContent = data.availableOnDates || 'All Available';
                 
-                const categoryElement = document.getElementById('playerCategory');
-                if (data.age && data.age <= 24) {
-                    categoryElement.textContent = 'U24';
-                    categoryElement.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
-                } else if (data.age && data.age > 35) {
-                    categoryElement.textContent = 'Veteran';
-                    categoryElement.style.background = 'linear-gradient(135deg, #f39c12, #d35400)';
-                } else {
-                    categoryElement.textContent = 'Senior';
-                    categoryElement.style.background = 'linear-gradient(135deg, #27ae60, #229954)';
-                }
-                
                 const playerImg = document.getElementById('playerImage');
                 if (data.playerImg) {
                     playerImg.src = data.playerImg;
@@ -587,16 +581,23 @@
                     playerImg.parentElement.innerHTML = '<span style="font-size: 80px; color: #3498db;">👤</span>';
                 }
                 
-                document.getElementById('currentBidAmount').textContent = `₹${this.formatAmount(data.currentBid || 0)}`;
+                // Update current bid in multiple places
+                const currentBid = data.currentBid || 0;
+                const formattedBid = `₹${this.formatAmount(currentBid)}`;
+                
+                document.getElementById('currentBidAmount').textContent = formattedBid;
                 
                 let teamText = 'No Bids Yet';
+                let teamShortText = 'No Bids Yet';
                 if (data.currentBidTeamId && data.wallets) {
                     const biddingTeam = data.wallets.find(wallet => wallet.teamId === data.currentBidTeamId);
                     if (biddingTeam) {
                         teamText = `Current Bid By: ${biddingTeam.teamName}`;
+                        teamShortText = biddingTeam.teamName;
                     }
                 }
-                document.getElementById('currentBidTeam').textContent = teamText;
+                
+                document.getElementById('currentBidTeamSide').textContent = teamShortText;
                 
                 if (data.tournImg) {
                     const logo = document.getElementById('tournamentLogo');
@@ -604,23 +605,6 @@
                     logo.style.display = 'block';
                     logo.nextElementSibling.style.display = 'none';
                 }
-            }
-            
-            showDisplay() {
-                document.body.style.display = 'block';
-                this.loadAuctionData();
-                
-                if (this.displayTimer) {
-                    clearTimeout(this.displayTimer);
-                }
-                
-                this.displayTimer = setTimeout(() => {
-                    this.switchToMinimal();
-                }, 10000);
-            }
-            
-            switchToMinimal() {
-                window.open('auction-minimal.html?tournamentId=' + this.tournamentId, '_self');
             }
             
             formatAmount(amount) {
@@ -641,6 +625,24 @@
                     indicator.textContent = message;
                 }
             }
+
+            showDisplay() {
+                document.body.style.display = 'block';
+                this.loadAuctionData();
+                
+                if (this.displayTimer) {
+                    clearTimeout(this.displayTimer);
+                }
+                
+                this.displayTimer = setTimeout(() => {
+                    this.switchToMinimal();
+                }, 10000);
+            }
+
+            switchToMinimal() {
+                window.open('auction-minimal.html?tournamentId=' + this.tournamentId, '_self');
+            }
+
         }
         
         document.addEventListener('DOMContentLoaded', () => {
