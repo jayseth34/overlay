@@ -68,13 +68,11 @@
       .extra-img {
         position: fixed;
         top: 15px;
-        width: 120px; /* Increased from 80px */
-        height: 120px; /* Increased from 80px */
+        width: 210px; /* Increased from 80px */
+        height: 132px; /* Increased from 80px */
         z-index: 10000;
         border-radius: 15px; /* Adjusted for larger size */
-        border: 3px solid #4a90e2; /* Thicker border */
         object-fit: cover;
-        box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4); /* Enhanced shadow */
       }
 
       .extra-img.left {
@@ -494,22 +492,20 @@
   </head>
   <body>
     <!-- Title Sponsor label above right image -->
-    <div class="sponsor-title">Title Sponsor</div>
 
     <!-- Two extra images - top left and top right -->
     <img
-      src="assets/left-image.png"
+      src="assets/travelpartner.png"
       alt="Left Sponsor"
       class="extra-img left"
       onerror="this.style.display='none'"
     />
     <img
-      src="assets/right-image.png"
+      src="assets/black-nish.png"
       alt="Right Sponsor"
       class="extra-img right"
       onerror="this.style.display='none'"
     />
-    <div class="sponsor-name">NISHIT OVERSEAS</div>
 
     <!-- Wallets visibility timer -->
     <div class="wallets-timer" id="walletsTimer" style="display: none;">
@@ -793,7 +789,7 @@
           // Update logo
           if (data.tournImg) {
             const logo = document.getElementById("tournamentLogo");
-            logo.src = data.tournImg;
+            logo.src = 'assets/rrclogo.png';
             logo.style.display = "block";
             logo.nextElementSibling.style.display = "none";
           }
