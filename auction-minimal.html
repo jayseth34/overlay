@@ -51,7 +51,7 @@
       }
       .sponsor-name {
         position: fixed;
-        top: 102px;
+        top: 142px; /* Adjusted for larger image */
         right: 15px;
         color: #4a90e2;
         font-size: 11px;
@@ -64,17 +64,17 @@
         border-radius: 5px;
       }
 
-      /* Two extra images - top left and top right */
+      /* Two extra images - top left and top right - BIGGER */
       .extra-img {
         position: fixed;
         top: 15px;
-        width: 80px;
-        height: 80px;
+        width: 120px; /* Increased from 80px */
+        height: 120px; /* Increased from 80px */
         z-index: 10000;
-        border-radius: 10px;
-        border: 2px solid #4a90e2;
+        border-radius: 15px; /* Adjusted for larger size */
+        border: 3px solid #4a90e2; /* Thicker border */
         object-fit: cover;
-        box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4); /* Enhanced shadow */
       }
 
       .extra-img.left {
@@ -87,15 +87,11 @@
 
       /* Logo at top center - smaller */
       .logo-container {
-        width: 120px;
+        width: 500px;
         height: 120px;
-        background: rgba(255, 255, 255, 0.98);
-        border-radius: 20px;
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 3px solid #4a90e2;
-        box-shadow: 0 6px 16px rgba(74, 144, 226, 0.3);
       }
 
       .logo-container img {
@@ -113,6 +109,7 @@
         gap: 15px;
         align-items: flex-end;
         justify-content: space-between;
+        transition: all 0.5s ease-in-out; /* Smooth transition */
       }
 
       /* Left Section - Player Info - smaller */
@@ -243,6 +240,32 @@
         border-radius: 12px;
         padding: 16px;
         box-shadow: 0 4px 16px rgba(26, 35, 126, 0.4);
+        transition: all 0.5s ease-in-out; /* Smooth transition */
+      }
+
+      /* HIDE/SHOW ANIMATION STYLES */
+      
+      .wallets-hidden .right-section {
+        opacity: 0;
+        transform: translateY(20px);
+        visibility: hidden;
+      }
+
+      
+      .wallets-shown .right-section {
+        opacity: 1;
+        transform: translateY(0);
+        visibility: visible;
+      }
+
+      /* When wallets are hidden, center the middle section */
+      .wallets-hidden .bottom-content {
+        justify-content: center;
+      }
+
+      .wallets-hidden .center-section {
+        max-width: none;
+        width: auto;
       }
 
       .teams-header {
@@ -308,7 +331,7 @@
 
       .loading-indicator {
         position: fixed;
-        top: 128px;
+        top: 148px; /* Adjusted for larger right image */
         right: 15px;
         background: rgba(74, 144, 226, 0.9);
         color: white;
@@ -317,6 +340,67 @@
         font-size: 10px;
         border: 2px solid #4a90e2;
         z-index: 100;
+      }
+
+      /* Wallets visibility timer indicator */
+      .wallets-timer {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: rgba(74, 144, 226, 0.9);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        border: 2px solid #4a90e2;
+        z-index: 10002;
+        transition: opacity 0.3s ease;
+      }
+
+      
+      /* Watermark Logo - Bottom Right */
+      .watermark-logo {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 150px;
+        height: 120px;
+        z-index: 1000;
+        opacity: 0.3;
+        pointer-events: none; /* Allows clicks to pass through */
+        transition: opacity 0.3s ease;
+      }
+
+      .watermark-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .watermark-logo:hover {
+        opacity: 0.9;
+      }
+
+      /* Responsive adjustments for watermark */
+      @media (max-width: 768px) {
+        .watermark-logo {
+          width: 60px;
+          height: 60px;
+          bottom: 15px;
+          right: 15px;
+          opacity: 0.6;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .watermark-logo {
+          width: 50px;
+          height: 50px;
+          bottom: 10px;
+          right: 10px;
+          opacity: 0.5;
+        }
       }
 
       /* Responsive Design */
@@ -378,8 +462,8 @@
         }
 
         .extra-img {
-          width: 60px;
-          height: 60px;
+          width: 90px; /* Smaller on mobile but still bigger than before */
+          height: 90px;
           top: 10px;
         }
 
@@ -398,8 +482,12 @@
         }
         .sponsor-name {
           font-size: 9px;
-          top: -2px;
+          top: 102px; /* Adjusted for mobile */
           right: 10px;
+        }
+
+        .loading-indicator {
+          top: 108px; /* Adjusted for mobile */
         }
       }
     </style>
@@ -422,6 +510,12 @@
       onerror="this.style.display='none'"
     />
     <div class="sponsor-name">NISHIT OVERSEAS</div>
+
+    <!-- Wallets visibility timer -->
+    <div class="wallets-timer" id="walletsTimer" style="display: none;">
+      Wallets: <span id="timerCountdown">20</span>s
+    </div>
+
     <div class="overlay-container">
       <div class="loading-indicator" id="loadingIndicator">🔄 Loading...</div>
 
@@ -437,7 +531,7 @@
       </div>
 
       <!-- Bottom content sections -->
-      <div class="bottom-content">
+      <div class="bottom-content wallets-hidden" id="bottomContent">
         <!-- Left Section - Player Info -->
         <div class="left-section">
           <div class="player-info-card">
@@ -492,6 +586,9 @@
           </div>
         </div>
       </div>
+      <div class="watermark-logo">
+        <img src="assets/sportyfy.jpeg" alt="Watermark" id="watermarkImage" />
+      </div>
     </div>
 
     <script>
@@ -504,7 +601,14 @@
           this.pollingInterval = null;
           this.currentData = null;
 
+          // Wallets visibility management
+          this.walletsVisible = false;
+          this.walletsTimer = null;
+          this.walletsInterval = null;
+          this.countdownTimer = null;
+
           this.initializeDisplay();
+          this.startWalletsVisibilityTimer();
         }
 
         getTournamentIdFromUrl() {
@@ -515,6 +619,68 @@
         initializeDisplay() {
           this.loadAuctionData();
           this.startPolling();
+        }
+
+        // NEW: Wallets visibility timer management
+        startWalletsVisibilityTimer() {
+          // Show wallets immediately for 10 seconds on load
+          this.showWallets();
+
+          // Set up recurring timer: hide for 50s, show for 10s (60s total cycle)
+          this.walletsInterval = setInterval(() => {
+            if (this.walletsVisible) {
+              this.hideWallets();
+            } else {
+              this.showWallets();
+            }
+          }, 60000); // Every 1 minute
+        }
+
+        showWallets() {
+          this.walletsVisible = true;
+          const bottomContent = document.getElementById('bottomContent');
+          const timerElement = document.getElementById('walletsTimer');
+          const countdownElement = document.getElementById('timerCountdown');
+
+          // Show wallets
+          bottomContent.classList.remove('wallets-hidden');
+          bottomContent.classList.add('wallets-shown');
+
+          // Show timer
+          timerElement.style.display = 'block';
+
+          // Start countdown
+          let countdown = 20;
+          countdownElement.textContent = countdown;
+
+          this.countdownTimer = setInterval(() => {
+            countdown--;
+            countdownElement.textContent = countdown;
+
+            if (countdown <= 0) {
+              clearInterval(this.countdownTimer);
+              this.hideWallets();
+            }
+          }, 1000);
+        }
+
+        hideWallets() {
+          this.walletsVisible = false;
+          const bottomContent = document.getElementById('bottomContent');
+          const timerElement = document.getElementById('walletsTimer');
+
+          // Hide wallets
+          bottomContent.classList.remove('wallets-shown');
+          bottomContent.classList.add('wallets-hidden');
+
+          // Hide timer
+          timerElement.style.display = 'none';
+
+          // Clear countdown timer
+          if (this.countdownTimer) {
+            clearInterval(this.countdownTimer);
+            this.countdownTimer = null;
+          }
         }
 
         async loadAuctionData() {
@@ -690,11 +856,25 @@
             indicator.textContent = message;
           }
         }
+
+        // Clean up intervals when needed
+        destroy() {
+          if (this.pollingInterval) clearInterval(this.pollingInterval);
+          if (this.walletsInterval) clearInterval(this.walletsInterval);
+          if (this.countdownTimer) clearInterval(this.countdownTimer);
+        }
       }
 
       // Initialize when page loads
       document.addEventListener("DOMContentLoaded", () => {
         window.minimalDisplay = new MinimalAuctionDisplay();
+      });
+
+      // Clean up on page unload
+      window.addEventListener("beforeunload", () => {
+        if (window.minimalDisplay) {
+          window.minimalDisplay.destroy();
+        }
       });
     </script>
   </body>
