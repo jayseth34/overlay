@@ -242,14 +242,13 @@
       }
 
       /* HIDE/SHOW ANIMATION STYLES */
-      
+
       .wallets-hidden .right-section {
         opacity: 0;
         transform: translateY(20px);
         visibility: hidden;
       }
 
-      
       .wallets-shown .right-section {
         opacity: 1;
         transform: translateY(0);
@@ -356,7 +355,138 @@
         transition: opacity 0.3s ease;
       }
 
-      
+      /* Enhanced Sold/Unsold Stamp Overlay */
+      .auction-stamp-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 99999;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        animation: fadeIn 0.5s ease-in-out;
+      }
+
+      .auction-stamp {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+        animation: stampDrop 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      }
+
+      /* Sold Stamp Styles */
+      .sold-stamp {
+        background: linear-gradient(135deg, #27ae60, #2ecc71, #58d68d);
+        border: 8px solid #1e8449;
+        color: white;
+        padding: 40px 60px;
+        border-radius: 25px;
+        font-size: 72px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 8px;
+        transform: rotate(-12deg);
+        box-shadow: 0 0 0 4px #27ae60, 0 30px 60px rgba(39, 174, 96, 0.6),
+          inset 0 8px 16px rgba(255, 255, 255, 0.2);
+        text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Unsold Stamp Styles */
+      .unsold-stamp {
+        background: linear-gradient(135deg, #e74c3c, #c0392b, #ec7063);
+        border: 8px solid #a93226;
+        color: white;
+        padding: 40px 60px;
+        border-radius: 25px;
+        font-size: 64px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 6px;
+        transform: rotate(8deg);
+        box-shadow: 0 0 0 4px #e74c3c, 0 30px 60px rgba(231, 76, 60, 0.6),
+          inset 0 8px 16px rgba(255, 255, 255, 0.2);
+        text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Team Name Display for Sold Players */
+      .sold-team-name {
+        background: rgba(255, 255, 255, 0.95);
+        color: #2c3e50;
+        padding: 20px 40px;
+        border-radius: 15px;
+        font-size: 36px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        border: 3px solid #27ae60;
+        text-align: center;
+        min-width: 400px;
+      }
+
+      /* Stamp Glow Effect */
+      .sold-stamp::before,
+      .unsold-stamp::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        animation: shimmer 2s infinite;
+        pointer-events: none;
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes stampDrop {
+        0% {
+          transform: translateY(-200px) scale(0.5);
+          opacity: 0;
+        }
+        50% {
+          transform: translateY(50px) scale(1.1);
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+      }
+
+      @keyframes shimmer {
+        0% {
+          transform: translateX(-100%) translateY(-100%);
+        }
+        100% {
+          transform: translateX(100%) translateY(100%);
+        }
+      }
+
       /* Watermark Logo - Bottom Right */
       .watermark-logo {
         position: fixed;
@@ -428,6 +558,18 @@
           width: 100px;
           height: 130px;
         }
+
+        .sold-stamp,
+        .unsold-stamp {
+          font-size: 48px;
+          padding: 30px 45px;
+        }
+
+        .sold-team-name {
+          font-size: 28px;
+          padding: 15px 30px;
+          min-width: 300px;
+        }
       }
 
       @media (max-width: 768px) {
@@ -487,6 +629,25 @@
         .loading-indicator {
           top: 108px; /* Adjusted for mobile */
         }
+
+        .sold-stamp,
+        .unsold-stamp {
+          font-size: 36px;
+          padding: 25px 35px;
+        }
+
+        .sold-team-name {
+          font-size: 24px;
+          padding: 12px 25px;
+          min-width: 250px;
+        }
+      }
+      /* common size + drop-shadow for both stamp images */
+      .stamp-img {
+        width: 320px; /* tweak as required */
+        height: auto;
+        filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.5));
+        animation: stampDrop 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       }
     </style>
   </head>
@@ -508,7 +669,7 @@
     />
 
     <!-- Wallets visibility timer -->
-    <div class="wallets-timer" id="walletsTimer" style="display: none;">
+    <div class="wallets-timer" id="walletsTimer" style="display: none">
       Wallets: <span id="timerCountdown">20</span>s
     </div>
 
@@ -582,6 +743,14 @@
           </div>
         </div>
       </div>
+
+      <!-- Sold/Unsold Stamp Overlay -->
+      <div class="auction-stamp-overlay" id="stampOverlay">
+        <div class="auction-stamp" id="stampContainer">
+          <!-- Stamp content will be dynamically inserted here -->
+        </div>
+      </div>
+
       <div class="watermark-logo">
         <img src="assets/sportyfy.jpeg" alt="Watermark" id="watermarkImage" />
       </div>
@@ -596,6 +765,7 @@
           this.previousPlayerData = null;
           this.pollingInterval = null;
           this.currentData = null;
+          this.isShowingStamp = false; // Flag to prevent overlapping stamps
 
           // Wallets visibility management
           this.walletsVisible = false;
@@ -634,16 +804,16 @@
 
         showWallets() {
           this.walletsVisible = true;
-          const bottomContent = document.getElementById('bottomContent');
-          const timerElement = document.getElementById('walletsTimer');
-          const countdownElement = document.getElementById('timerCountdown');
+          const bottomContent = document.getElementById("bottomContent");
+          const timerElement = document.getElementById("walletsTimer");
+          const countdownElement = document.getElementById("timerCountdown");
 
           // Show wallets
-          bottomContent.classList.remove('wallets-hidden');
-          bottomContent.classList.add('wallets-shown');
+          bottomContent.classList.remove("wallets-hidden");
+          bottomContent.classList.add("wallets-shown");
 
           // Show timer
-          timerElement.style.display = 'block';
+          timerElement.style.display = "block";
 
           // Start countdown
           let countdown = 20;
@@ -662,15 +832,15 @@
 
         hideWallets() {
           this.walletsVisible = false;
-          const bottomContent = document.getElementById('bottomContent');
-          const timerElement = document.getElementById('walletsTimer');
+          const bottomContent = document.getElementById("bottomContent");
+          const timerElement = document.getElementById("walletsTimer");
 
           // Hide wallets
-          bottomContent.classList.remove('wallets-shown');
-          bottomContent.classList.add('wallets-hidden');
+          bottomContent.classList.remove("wallets-shown");
+          bottomContent.classList.add("wallets-hidden");
 
           // Hide timer
-          timerElement.style.display = 'none';
+          timerElement.style.display = "none";
 
           // Clear countdown timer
           if (this.countdownTimer) {
@@ -681,6 +851,11 @@
 
         async loadAuctionData() {
           try {
+            // Don't fetch new data if showing stamp
+            if (this.isShowingStamp) {
+              return;
+            }
+
             this.updateLoadingIndicator("Fetching...");
 
             const response = await fetch(
@@ -694,7 +869,19 @@
             const result = await response.json();
 
             if (result.statusCode === 200 && result.data) {
-              this.processAuctionData(result.data);
+              // Only check if tournamentId is 0 to determine invalid state
+              if (result.data.tournamentId === 0) {
+                console.log(
+                  "Received invalid state (tournamentId = 0), skipping UI update"
+                );
+                this.updateLoadingIndicator("Waiting for valid data...");
+                return;
+              }
+
+              // Check for player change before updating display
+              await this.checkPlayerChange(result.data);
+
+              this.currentData = result.data;
               this.updateLoadingIndicator("Live");
 
               setTimeout(() => {
@@ -708,35 +895,112 @@
           }
         }
 
-        processAuctionData(data) {
-          console.log("Processing auction data:", data);
-          this.currentData = data;
+        async checkPlayerChange(newData) {
+          const newPlayerId = newData.playerId;
 
-          // Check for player change
-          this.checkPlayerChange(data);
-
-          // Update display
-          this.updateDisplay(data);
-        }
-
-        checkPlayerChange(data) {
-          const newPlayerId = data.playerId;
-
-          // If player changed, show full display
+          // If we have a current player ID and it's different from the new one
           if (this.currentPlayerId && this.currentPlayerId !== newPlayerId) {
-            console.log("Player changed - switching to full display");
-            this.switchToFullDisplay();
+            console.log(
+              `Player changed from ${this.currentPlayerId} to ${newPlayerId}`
+            );
+            // Check if the previous player was sold
+            if (
+              newData.lastPlayerSoldToTeam &&
+              newData.lastPlayerSoldToTeam !== "0" &&
+              newData.lastPlayerSoldToTeam !== null
+            ) {
+              // Player was SOLD - find team name and show stamp
+              const soldTeam = this.findTeamNameById(
+                newData.lastPlayerSoldToTeam,
+                newData.wallets
+              );
+              await this.showSoldStamp(soldTeam);
+            } else {
+              // Player was UNSOLD - show unsold stamp
+              await this.showUnsoldStamp();
+            }
+
+            // After showing stamp, navigate to full display
+            this.navigateToFullDisplay();
             return;
           }
 
           // Store current data for next comparison
           this.previousPlayerData = {
-            currentBid: data.currentBid,
-            basePrice: data.basePrice,
-            playerId: data.playerId,
+            currentBid: newData.currentBid,
+            basePrice: newData.basePrice,
+            playerId: newData.playerId,
           };
 
+          // Update current player ID and display
           this.currentPlayerId = newPlayerId;
+          this.updateDisplay(newData);
+        }
+
+        findTeamNameById(teamId, wallets) {
+          if (!wallets || wallets.length === 0) {
+            return "Unknown Team";
+          }
+
+          const team = wallets.find(
+            (wallet) => wallet.teamId.toString() === teamId.toString()
+          );
+          return team ? team.teamName : "Unknown Team";
+        }
+
+        async showSoldStamp(teamName) {
+          return new Promise((resolve) => {
+            this.isShowingStamp = true;
+            const overlay = document.getElementById("stampOverlay");
+            const container = document.getElementById("stampContainer");
+            container.innerHTML = ""; // reset
+
+            /* 1️⃣  stamp image */
+            const img = document.createElement("img");
+            img.src = "assets/sold-stamp.png";
+            img.className = "stamp-img";
+            container.appendChild(img);
+
+            /* 2️⃣  team name bar (unchanged) */
+            const teamDiv = document.createElement("div");
+            teamDiv.className = "sold-team-name";
+            teamDiv.textContent = teamName;
+            container.appendChild(teamDiv);
+
+            overlay.style.display = "flex";
+            setTimeout(() => {
+              overlay.style.display = "none";
+              this.isShowingStamp = false;
+              resolve();
+            }, 3000);
+          });
+        }
+
+        async showUnsoldStamp() {
+          return new Promise((resolve) => {
+            this.isShowingStamp = true;
+            const overlay = document.getElementById("stampOverlay");
+            const container = document.getElementById("stampContainer");
+            container.innerHTML = "";
+
+            const img = document.createElement("img");
+            img.src = "assets/unsold.png";
+            img.className = "stamp-img";
+            container.appendChild(img);
+
+            overlay.style.display = "flex";
+            setTimeout(() => {
+              overlay.style.display = "none";
+              this.isShowingStamp = false;
+              resolve();
+            }, 2500);
+          });
+        }
+
+        navigateToFullDisplay() {
+          // Navigate to the full display page
+          console.log("Navigating to full display page");
+          window.location.href = `index.html?tournamentId=${this.tournamentId}`;
         }
 
         updateDisplay(data) {
@@ -789,7 +1053,7 @@
           // Update logo
           if (data.tournImg) {
             const logo = document.getElementById("tournamentLogo");
-            logo.src = 'assets/rrclogo.png';
+            logo.src = "assets/rrclogo.png";
             logo.style.display = "block";
             logo.nextElementSibling.style.display = "none";
           }
@@ -815,21 +1079,15 @@
             }
 
             row.innerHTML = `
-                        <div class="team-name">${wallet.teamName}</div>
-                        <div class="team-balance">₹${this.formatAmount(
-                          wallet.remainingBalance
-                        )}</div>
-                        <div class="team-players">${
-                          wallet.soldPlayersCount || "--"
-                        }</div>
-                    `;
+              <div class="team-name">${wallet.teamName}</div>
+              <div class="team-balance">₹${this.formatAmount(
+                wallet.remainingBalance
+              )}</div>
+              <div class="team-players">${wallet.soldPlayersCount || "--"}</div>
+            `;
 
             container.appendChild(row);
           });
-        }
-
-        switchToFullDisplay() {
-          window.open("index.html?tournamentId=" + this.tournamentId, "_self");
         }
 
         startPolling() {
